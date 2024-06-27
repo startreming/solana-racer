@@ -18,7 +18,7 @@ namespace Effects
         private GroundSurfacePreset surfaceProps;
         
         [SerializeField] private KartModel kartModel;
-        [SerializeField] private KartCspController kartController;
+        [SerializeField] private KartController kartController;
         private Transform tire;
  
         Vector3 leftPoint = Vector3.zero;
@@ -64,7 +64,7 @@ namespace Effects
             prevSurface = GroundSurfacePreset.CreateInstance<GroundSurfacePreset>();
         }
 
-        public void SetKartControllerAndModel(KartCspController controller, KartModel model)
+        public void SetKartControllerAndModel(KartController controller, KartModel model)
         {
             kartController = controller;
             kartModel = model;

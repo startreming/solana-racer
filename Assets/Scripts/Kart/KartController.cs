@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
-using JetBrains.Annotations;
+using Domain;
+using Effects;
 using UnityEngine;
 
 namespace Kart
@@ -8,54 +9,48 @@ namespace Kart
     public class KartController : MonoBehaviour
     {
         public Vector3 LocalVelocity => _localVelocity;
-        public Rigidbody Rigidbody => sphere;
-        public Transform Normal => kartNormal;
-        public KartModel Model => _kartModel;
+        public Rigidbody Rigidbody => rigidbody;
+        public KartModel Model => kartModel;
+        public Transform Normal => normal;
         public bool Sliding => _isDrifting;
         public bool Grounded => _isGrounded;
         public float CurrentRotate => _currentRotate;
-        
-        [Header("Dependencies")]
-        [SerializeField] private Transform kartNormal;
-        [SerializeField] private Rigidbody sphere;
-        [SerializeField] private KartModel _kartModel;
+        public float CurrentSpeed => _currentSpeed;
+        public bool IsDrifting => _isDrifting;
+        public VehicleStats Stats => stats;
+
+        [SerializeField] private Rigidbody rigidbody;
+        [SerializeField] private Transform kart;
+        [SerializeField] private Transform normal;
+        [SerializeField] private Transform rotator;
 
         [Header("Parameters")]
+        [SerializeField] private float maxForwardSpeed = 65f;
+        [SerializeField] private float maxSteeringSpeed = 15f;
+        [SerializeField] private float gravity = 25f;
         [SerializeField] private LayerMask layerMask;
-        
-        private Vector3 _localVelocity;
+        [SerializeField] private KartModel kartModel;
+        [SerializeField] private VehicleStats stats;
 
-        // Input
-        private float _horizontalSteer;
-        private bool _accelerateValue;
-        private bool _isDrifting;
-        private bool _braking;
-        
-        // might not need to syncvar, only server needs to know
-        private float _speed;
+        private bool _canMove = true;
+        private InputActions _input = null;
+        private Vector3 _localVelocity;
+        private float _airTime = 0f;
         private float _currentSpeed;
-        private float _rotate;
         private float _currentRotate;
         private int _driftDirection; // the client might know for visual purposes
         private int _driftMode;
         private float _driftPower;
-        private bool _trickQueued;
-        private Vector3 _sphereVelocity;
-        private float _prevSpeed;
-
-        private float _acceleration;
-        private float _steering;
-        private float _gravity;
-        
+        private float _nitroCollectionRate = 150f;
+        private float _engineTime;
+        private bool _isDrifting;
         private bool _isGrounded;
-        private float _carHopCooldown;
-        private float _airTime;
+        private bool _isOffroad = false;
+        private float _offroadMultiplier = 0.8f;
+        private bool _trickQueued;
+        private float _prevSpeed;
         private bool _prevIsGrounded;
-        private int _prevDriftMode;
-        private Tweener _tweenLocalRotate;
-
-        /*[SyncVar(OnChange = nameof(on_changeRotation), SendRate = 0.1f, Channel = Channel.Reliable)] 
-        private Vector3 _rotationAngles; */
+        private GroundSurfacePreset _lastGroundSurfacePreset;
 
         public event Action OnDriftStart = () => { };
         public event Action OnDriftEnd = () => { };
@@ -63,266 +58,164 @@ namespace Kart
         public event Action OnBoostStart = () => { };
         public event Action OnGroundEnter = () => { };
         public event Action OnGroundLeave = () => { };
+        public event Action<GroundSurfacePreset> OnGroundTypeChange = (groundSurfacePreset) => { };
 
-        private void OnEnable()
+        private void Awake()
         {
-            OnGroundEnter += LandedDriftEnd;
-        }
-        
-        private void OnDisable()
-        {
-            OnGroundEnter -= LandedDriftEnd;
+            _input = new InputActions();
         }
 
-        private void LandedDriftEnd()
+        public void OnEnable()
         {
-            if (_isDrifting)
-            {
-                DriftEnd(false);
-            }
-            if (!_isDrifting && _trickQueued)
-            {
-                _trickQueued = false;
-                RpcBoost(true);
-            }
+            _input.Enable();
         }
 
-        private void on_changeRotation(Vector3 prev, Vector3 next, bool asServer)
+        public void OnDisable()
         {
-            transform.eulerAngles = next;
+            _input.Disable();
         }
 
-        public void SetKartModel(KartModel newModel)
-        {
-            _kartModel = newModel;
-        }
-
-        public void Accelerate(bool accelerateVal)
-        {
-            RpcSetAccelerate(accelerateVal);
-        }
-
-        public void Steer(float horizontalValue)
-        {
-            RpcSetSteer(horizontalValue);
-        }
-        
-        private void RpcSetAccelerate(bool val)
-        {
-            _accelerateValue = val;
-        }
-        
-        private void RpcSetSteer(float val)
-        {
-            _horizontalSteer = val;
-        }
-        
-        private void RpcSetBraking(bool val)
-        {
-            _braking = val;
-        }
-        
-        public void Drift(Boolean driftValue)
-        {
-            if (driftValue)
-            {
-                if (_carHopCooldown <= 0f)
-                {
-                    RpcSetDrift(true);
-                    RpcDoCarHop();
-                    _carHopCooldown = 0.3f;
-                }
-            }
-            else
-                RpcSetDrift(false);
-        }
-        
-        public void Brake(Boolean brakeValue)
-        {
-            RpcSetBraking(brakeValue);
-        }
-        
-        private void RpcSetDrift(bool driftValue)
-        {
-            if (_isDrifting && !driftValue)
-            {
-                _isDrifting = false;
-            }
-            
-            if (driftValue && !_isDrifting && _horizontalSteer != 0 && _currentSpeed > 20f && _isGrounded)
-            {
-                _isDrifting = true;
-                RpcSetDriftVisuals(true);
-            }
-
-            if (driftValue && !_isDrifting && !_isGrounded && _airTime < 0.3f && !_trickQueued)
-            {
-                _kartModel.Trick();
-                _trickQueued = true;
-            }
-            
-            if (driftValue)
-            {
-                _driftDirection = _horizontalSteer > 0 ? 1 : -1;
-            }
-        }
-        
-        public void DriftEnd(Boolean driftValue)
-        {
-            if (!driftValue && _isDrifting)
-            {
-                _isDrifting = false;
-                RpcBoost();
-            }
-        }
-        
-        private void RpcDoCarHop()
-        {
-            RpcSendHop();
-        }
+        public float _interpolation = 1.0f;
 
         private void Update()
         {
-            _accelerateValue = Input.GetKeyDown(KeyCode.W);
+            Move();
             
-            SetKartComponentPositions();
-            
-            float delta = Time.deltaTime;
-            if (_carHopCooldown > 0f) _carHopCooldown -= delta;
-
-            if (_accelerateValue)
-            {
-                _speed = _acceleration;
-            }
-            else if (_braking)
-            {
-                _speed = _acceleration * -0.75f;
-            }
-            
-            GetSteerInput();
-        
-            HandleDrift();
-
-            CalculateDrag();
-
-            if (_isGrounded)
-                _airTime += delta;
-            else
-                _airTime = 0f;
-
-            _sphereVelocity = sphere.velocity;
-
-            _currentSpeed = Mathf.SmoothStep(_currentSpeed, _speed, delta * 12f); _speed = 0f;
-            _currentRotate = Mathf.Lerp(_currentRotate, _rotate, delta * 2f); _rotate = 0f;
+            SyncPosition();
+            SyncRotation();
+            _localVelocity = normal.InverseTransformDirection(rigidbody.velocity);
         }
 
-        private void CalculateDrag()
+        private void SyncPosition()
         {
-            Rigidbody.drag = 2f;
+            float time = Time.deltaTime * _interpolation;
+            float deltaTime = Time.deltaTime;
 
-            if (sphere.velocity.magnitude < 0.2f && Mathf.Abs(_currentSpeed) < 1f)
-                Rigidbody.drag = 20f;
+            Transform kartVisuals = kart.transform;
+            Rigidbody rb = rigidbody;
+            var targetPosition = rb.transform.position - new Vector3(0, 0.4f, 0);
+
+            float distance = Vector3.Distance(kartVisuals.position, targetPosition);
+
+            kartVisuals.transform.position =
+                Vector3.MoveTowards(kartVisuals.position, targetPosition, (distance / time) * deltaTime);
+        }
+
+        private void SyncRotation()
+        {
+            float time = Time.deltaTime * _interpolation;
+            float deltaTime = Time.deltaTime;
+
+            Transform kartVisuals = kart.transform;
+            Transform turningAid = rotator;
             
+            var distance = Quaternion.Angle(kartVisuals.rotation, rotator.rotation);
+
+            kartVisuals.rotation =
+                Quaternion.RotateTowards(kartVisuals.rotation, turningAid.rotation, (distance / time) * deltaTime);
+        }
+
+        public void SetCanMove(bool state)
+        {
+            _canMove = state;
+        }
+
+        public void SetKartRotation(Quaternion rotation)
+        {
+            rotator.rotation = rotation;
+        }
+        
+        private void Move()
+        {
+            //_wasUserCreated = (state == ReplicateState.UserCreated || state == ReplicateState.ReplayedUserCreated);
+            
+            var forward = _input.Kart.Forward.ReadValue<float>();
+            var horizontal = _input.Kart.Steer.ReadValue<float>();
+            var drifting = _input.Kart.Drift.IsPressed();
+            
+            float delta = Time.deltaTime;
+
+            if (kartModel == null)
+                return;
+
+            var gravityMultiplier = 0.2f;
             if (!_isGrounded)
             {
-                Rigidbody.drag = 0.1f;
+                gravityMultiplier = 1f;
+                _airTime += Time.deltaTime;
             }
-        }
-        
-        private void FixedUpdate()
-        {
-            var target = sphere.transform.position - new Vector3(0, 0.4f, 0);
-            float delta = Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, target, delta * 15);
             
-            HandleNormalRotation();
-
-            SetForwardAcceleration();
-
-            var gravityMultiplier = 0.4f;
-            if (!_isGrounded) gravityMultiplier = 1f;
-            if (Rigidbody.drag >= 9f)
-                gravityMultiplier = 0f;
-
-            sphere.useGravity = gravityMultiplier > 0f;
-            sphere.AddForce(Vector3.down * _gravity * gravityMultiplier, ForceMode.Acceleration);
-
-            transform.eulerAngles = 
-                Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + _currentRotate, 0), 
-                delta * 10f);
+            float lerpTime = ApplyInputToEngineTime(forward, delta);
+            float targetSpeed = ConvertEngineTimeToSpeed();
             
-            _prevSpeed = sphere.velocity.magnitude;
-        }
-
-
-
-        private void SetKartComponentPositions()
-        {
-            
-            // this works OK as long as isDrifting, horizontalSteer and driftDirection are sync
-            if (!_isDrifting)
+            if (!_canMove)
             {
-                _kartModel.PointTowardsTurn(_horizontalSteer);
+                targetSpeed = 0f;
+                _engineTime = 0f;
+            }
+            _currentSpeed = Mathf.SmoothStep(_currentSpeed, targetSpeed, delta * lerpTime);
+
+            HandleDriftInput(horizontal, drifting);
+            CalculateDriftStages();
+            HandleSteering(delta, horizontal);
+
+            SyncVisuals(horizontal);
+            HandleNormalRotation(delta);
+            CalculateDrag();
+
+            ApplyMovementForces();
+            rigidbody.AddForce(Vector3.down * gravity * gravityMultiplier, ForceMode.Acceleration);
+            _prevSpeed = rigidbody.velocity.magnitude;
+        }
+
+        private float ConvertEngineTimeToSpeed()
+        {
+            float targetSpeed;
+            if (_engineTime >= 0)
+            {
+                targetSpeed = stats.GetCurrentSpeed(_engineTime);
             }
             else
             {
-                float control = _driftDirection == 1
-                    ? _horizontalSteer.Remap(-1, 1, .5f, 2)
-                    : _horizontalSteer.Remap(-1, 1, 2, .5f);
-                var parent = _kartModel.transform.parent;
-                parent.localRotation = Quaternion.Euler(0,
-                    Mathf.LerpAngle(parent.localEulerAngles.y, (control * 15) * _driftDirection, .05f), 0);
+                targetSpeed = stats.GetReverseSpeed(-_engineTime);
             }
 
-            var sphereVelocity = _sphereVelocity;
-            
-            var speedDelta = (sphereVelocity.magnitude - _prevSpeed)*0.4f;
-            
-            speedDelta *= Mathf.Sign(Vector3.Dot(sphereVelocity.normalized, transform.forward));
-            
-            _kartModel.PointFrontWheels(_horizontalSteer, sphereVelocity.magnitude);
-            _kartModel.SpinBackWheels(sphereVelocity.magnitude);
-            _kartModel.PointSteeringWheel(_horizontalSteer);
-            _kartModel.WeightTransfer(speedDelta, _currentRotate, sphereVelocity.magnitude);
-            _kartModel.SetDrifting(_isDrifting);
-
-            _localVelocity = kartNormal.InverseTransformDirection(sphereVelocity);
+            return targetSpeed;
         }
 
-        
-        private void GetSteerInput()
+        private float ApplyInputToEngineTime(float forward, float delta)
         {
-            if (_horizontalSteer != 0)
+            var lerpTime = 12f;
+            if (forward > 0)
             {
-                int dir = _horizontalSteer > 0 ? 1 : -1;
-                float amount = Mathf.Abs(_horizontalSteer);
-                ApplyVelocityToSteering(dir, amount);
+                _engineTime += delta;
+                if (_currentSpeed < 0)
+                {
+                    lerpTime = 18f;
+                    _engineTime += delta * 2f;
+                }
             }
-        }
-        private void HandleDrift()
-        {
-            if (_isDrifting)
+            else if (forward < 0)
             {
-                float control = (_driftDirection == 1)
-                    ? _horizontalSteer.Remap(-1, 1, 0, 1.5f)
-                    : _horizontalSteer.Remap(-1, 1, 1.5f, 0);
-                float powerControl = (_driftDirection == 1)
-                    ? _horizontalSteer.Remap(-1, 1, .2f, 1)
-                    : _horizontalSteer.Remap(-1, 1, 1, .2f);
-                _driftPower += powerControl * Time.deltaTime * 100f;
-                ApplyVelocityToSteering(_driftDirection, control*0.7f);
-                HandleDriftMode();
+                _engineTime -= delta * 15f;
+                lerpTime = 18f;
             }
-        }
-        private void ApplyVelocityToSteering(int direction, float amount)
-        {
-            _rotate = (_steering * direction) * amount;
-            _rotate *= Mathf.Clamp(sphere.velocity.magnitude*0.1f, 0f, 1f);
-            _rotate *= Mathf.Sign(Vector3.Dot(sphere.velocity.normalized, transform.forward)); // :)
+            else
+            {
+                lerpTime = 4f;
+                if (_currentSpeed < 0)
+                    lerpTime = 16f;
+                _engineTime = Mathf.SmoothStep(_engineTime, 0f, delta*lerpTime);
+            }
+
+            _engineTime = Mathf.Clamp(_engineTime, -5f, 5f);
+            return lerpTime;
         }
 
-        private void HandleDriftMode()
+        private void CalculateDriftStages()
         {
+            var _prevDriftMode = _driftMode;
+
             if (_driftPower > 50f && _driftPower < 100f)
             {
                 _driftMode = 1;
@@ -340,56 +233,40 @@ namespace Kart
 
             if (_driftMode > _prevDriftMode)
             {
-                RpcSendBoostUpgrade(_driftMode);
+                OnDriftUpgrade(_driftMode);
+                //TODO: Make visual Drift Stage upgrade RpcSendBoostUpgrade(_driftMode);
             }
-            
-            _prevDriftMode = _driftMode;
         }
 
-        private void HandleNormalRotation()
+        private void HandleDriftInput(float horizontal, bool drifting)
         {
-            // not synchronized, this is done locally
-            RaycastHit hitOn;
-            RaycastHit hitNear;
+            bool driftValue = drifting;
+            float _horizontalSteer = horizontal;
 
-            gameObject.scene.GetPhysicsScene()
-                .Raycast(transform.position + (transform.up * .1f), Vector3.down, out hitOn, 1.1f, layerMask);
-            gameObject.scene.GetPhysicsScene()
-                .Raycast(transform.position + (transform.up * .1f), Vector3.down, out hitNear, 2.0f, layerMask);
-
-            kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8.0f);
-            kartNormal.Rotate(0, transform.eulerAngles.y, 0);
-            
-            if (hitOn.collider != null)
+            if (_isDrifting && !driftValue)
             {
-                _isGrounded = true;
-            }
-            else
-            {
-                _isGrounded = false;
+                _isDrifting = false;
+                FinishDriftAndBoost();
             }
 
-            if (_isGrounded && !_prevIsGrounded) OnGroundEnter.Invoke();
-            if (!_isGrounded && _prevIsGrounded) OnGroundLeave.Invoke();
+            if (driftValue && !_isDrifting && _horizontalSteer != 0 && _currentSpeed > 20f && _isGrounded)
+            {
+                _isDrifting = true;
+                _driftDirection = _horizontalSteer > 0 ? 1 : -1;
+                kartModel.Hop();
+
+                OnDriftStart.Invoke();
+                //RpcSetDriftVisuals(true);
+            }
             
-            _prevIsGrounded = _isGrounded;
+            if (driftValue && !_isDrifting && !_isGrounded && _airTime < 0.1f && !_trickQueued)
+            {
+                kartModel.Trick();
+                _trickQueued = true;
+            }
         }
 
-        private void SetForwardAcceleration()
-        {
-            if (!_isGrounded) return;
-            if (!_isDrifting)
-            {
-                sphere.AddForce(-_kartModel.transform.right * _currentSpeed, ForceMode.Acceleration);
-            }
-            else
-            {
-                sphere.AddForce(transform.forward * _currentSpeed, ForceMode.Acceleration);
-                sphere.AddForce(transform.right * (-_driftDirection * _currentSpeed * 0.15f), ForceMode.Acceleration);
-            }
-        }
-        
-        private void RpcBoost(bool forceBoost = false)
+        private void FinishDriftAndBoost(bool forceBoost = false)
         {
             _isDrifting = false;
 
@@ -398,43 +275,184 @@ namespace Kart
             if (boostLevel > 0)
             {
                 DOVirtual.Float(_currentSpeed * 3, _currentSpeed, .3f * boostLevel, x => _currentSpeed = x);
+                OnBoostStart.Invoke();
             }
-            RpcSendVisuals(boostLevel>0);
-            RpcSetDriftVisuals(false);
+            //RpcSendVisuals(boostLevel>0);
+            //RpcSetDriftVisuals(false);
 
             _driftMode = 0;
             _driftPower = 0;
             _driftDirection = 0;
+            OnDriftEnd.Invoke();
         }
 
-        [UsedImplicitly]
-        private void RpcSendHop()
+        private void SyncVisuals(float steering)
         {
-            _kartModel.Hop();
-        }
-        
-        private void RpcSendBoostUpgrade(int driftMode)
-        {
-            OnDriftUpgrade.Invoke(driftMode);
-        }
-        
-        private void RpcSetDriftVisuals(bool driftActive)
-        {
-            
-            if(driftActive)
-                OnDriftStart.Invoke();
+            // this works OK as long as isDrifting, horizontalSteer and driftDirection are sync
+
+            var parentAngleTarget = 0f;
+
+            if (!_isDrifting)
+            {
+                kartModel.PointTowardsTurn(steering*0.8f);
+            }
             else
-                OnDriftEnd.Invoke();
+            {
+                float control = _driftDirection == 1
+                    ? steering.Remap(-1, 1, .5f, 2)
+                    : steering.Remap(-1, 1, 2, .5f);
+                parentAngleTarget = control * 15f * _driftDirection;
+            }
 
+            var parent = kartModel.transform.parent;
+            parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(parent.localEulerAngles.y, parentAngleTarget, .05f), 0);
+            //parent.localRotation = Quaternion.Euler(0, parentAngleTarget, 0);
+
+            var speedDelta = (rigidbody.velocity.magnitude - _prevSpeed)*0.4f;
+
+            speedDelta *= Mathf.Sign(Vector3.Dot(rigidbody.velocity.normalized, transform.forward));
+
+            kartModel.PointFrontWheels(steering, rigidbody.velocity.magnitude);
+            kartModel.SpinBackWheels(rigidbody.velocity.magnitude);
+            kartModel.PointSteeringWheel(steering);
+            kartModel.WeightTransfer(speedDelta, _currentRotate, rigidbody.velocity.magnitude);
+            kartModel.SetDrifting(_isDrifting);
+
+            _localVelocity = normal.InverseTransformDirection(rigidbody.velocity);
         }
-        
-        private void RpcSendVisuals(bool showsBoostParticle)
+
+        private void ApplyMovementForces()
         {
-            if(showsBoostParticle)
-                OnBoostStart.Invoke();
+            if (!_isGrounded)
+                return;
+
+            var maxSpeed = _currentSpeed;
+            if (_isOffroad) maxSpeed *= _offroadMultiplier;
+
+            maxSpeed += Mathf.Abs(_currentRotate * 0.08f); // Help
             
-            _tweenLocalRotate.Complete();
-            _tweenLocalRotate = _kartModel.transform.parent.DOLocalRotate(Vector3.zero, .5f).SetEase(Ease.OutBack);
+            if (!_isDrifting)
+            {
+                var direction = rotator.transform.forward;
+                direction += kart.transform.right * _currentRotate * 0.05f;
+                
+                rigidbody.AddForce(direction.normalized * maxSpeed, ForceMode.Acceleration);
+            }
+            else
+            {
+                var direction = kart.transform.forward;
+                direction += kart.transform.right * -_driftDirection * 0.25f;
+                
+                rigidbody.AddForce(direction.normalized * maxSpeed, ForceMode.Acceleration);
+            }
+        }
+
+        private void CalculateDrag()
+        {
+            rigidbody.drag = 2f;
+            if (!_isGrounded)
+            {
+                rigidbody.drag = 0.1f;
+            }
+        }
+
+        private void HandleSteering(float delta, float horizontalSteer)
+        {
+            float targetRotation = 0f;
+
+            if (_isDrifting)
+            {
+                float control = (_driftDirection == 1)
+                    ? horizontalSteer.Remap(-1, 1, 0.15f, 1.5f)
+                    : horizontalSteer.Remap(-1, 1, 1.5f, 0.15f);
+                float powerControl = (_driftDirection == 1)
+                    ? horizontalSteer.Remap(-1, 1, .2f, 1)
+                    : horizontalSteer.Remap(-1, 1, 1, .2f);
+                
+                _driftPower += powerControl * Time.deltaTime * _nitroCollectionRate;
+                
+                targetRotation = ApplyVelocityToSteering(_driftDirection, control * 0.7f);
+            }
+            else
+            {
+                if (horizontalSteer != 0)
+                {
+                    int direction = horizontalSteer > 0 ? 1 : -1;
+                    float amount = Mathf.Abs(horizontalSteer);
+
+                    targetRotation = ApplyVelocityToSteering(direction, amount);
+                }
+            }
+
+            _currentRotate = Mathf.Lerp(_currentRotate, targetRotation, 0.1f);
+            
+            rotator.transform.Rotate(new Vector3(0f, _currentRotate * 0.15f, 0f));
+        }
+
+        private float ApplyVelocityToSteering(int direction, float amount)
+        {
+            var targetRotation = maxSteeringSpeed * direction * amount;
+            targetRotation *= Mathf.Clamp(rigidbody.velocity.magnitude * 0.1f, 0f, 1f);
+            targetRotation *= Mathf.Sign(_currentSpeed);//Vector3.Dot(rigidbody.velocity.normalized, kart.transform.forward));
+            return targetRotation;
+        }
+
+        private void HandleNormalRotation(float delta)
+        {
+            RaycastHit hitOn;
+            RaycastHit hitNear;
+
+            Physics.Raycast(kart.transform.position + (kart.transform.up * .1f), Vector3.down, out hitOn, 1.1f,
+                layerMask);
+            Physics.Raycast(kart.transform.position + (kart.transform.up * .1f), Vector3.down, out hitNear, 2.0f,
+                layerMask);
+
+            normal.up = Vector3.Lerp(normal.up, hitNear.normal, Time.deltaTime * 8.0f);
+            normal.Rotate(0, transform.eulerAngles.y, 0);
+
+            if (hitOn.collider != null)
+            {
+                _isGrounded = true;
+
+                if (_trickQueued)
+                {
+                    FinishDriftAndBoost(true);
+                    _trickQueued = false;
+                }
+                
+                _airTime = 0f;
+                _isOffroad = false;
+
+                var gs = hitOn.transform.GetComponent<GroundSurface>();
+                
+                GroundSurfacePreset gsp = null;
+                if (gs != null)
+                {
+                    gsp = gs.GetProps();
+                    _isOffroad = gsp.offRoad;
+                }
+
+                if (gsp != _lastGroundSurfacePreset)
+                {
+                    OnGroundTypeChange.Invoke(gsp);
+                }
+
+                _lastGroundSurfacePreset = gsp;
+            }
+            else
+            {
+                if (_isGrounded)
+                    OnGroundTypeChange.Invoke(null);
+
+                _isGrounded = false;
+                _lastGroundSurfacePreset = null;
+                _isOffroad = false;
+            }
+
+            if (_isGrounded && !_prevIsGrounded) OnGroundEnter.Invoke();
+            if (!_isGrounded && _prevIsGrounded) OnGroundLeave.Invoke();
+
+            _prevIsGrounded = _isGrounded;
         }
     }
 }

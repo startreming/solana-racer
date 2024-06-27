@@ -4901,9 +4901,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689130982543419561}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.24074253, y: 0.17330271, z: 0}
-  m_LocalScale: {x: 0.72533834, y: 0.7253381, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3848953, y: -0.59702516, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9137492004961230345}
@@ -24592,8 +24592,8 @@ Transform:
   m_GameObject: {fileID: 1746121159005389306}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -1.5774058, y: -1.0620264, z: 0.71388614}
-  m_LocalScale: {x: 1, y: 1.3786666, z: 1.3786665}
+  m_LocalPosition: {x: 0, y: 0, z: 0.7138847}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3759074005850987909}
@@ -24707,8 +24707,8 @@ Transform:
   m_GameObject: {fileID: 2352935116031988071}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -1.5774056, y: -1.0620259, z: -0.74090976}
-  m_LocalScale: {x: 1, y: 1.3786666, z: 1.3786665}
+  m_LocalPosition: {x: 0, y: 0, z: -0.7409112}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2286548667985050755}
@@ -83142,9 +83142,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6062103073297824829}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4507344, y: 0.23207474, z: 0}
-  m_LocalScale: {x: 0.8579222, y: 0.85791993, z: 1.1827887}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.246728, y: -0.59702384, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3309973916749840683}
@@ -97954,7 +97954,6 @@ MonoBehaviour:
   backWheels: {fileID: 4021914608904176547}
   steeringWheel: {fileID: 1545100954032995305}
   kartChassis: {fileID: 8201240540555774409}
-  pilotSpawner: {fileID: 0}
   bodyPitchAxis: 0
   bodyRollAxis: 2
   bodyRollFactor: 0.7
@@ -98022,8 +98021,8 @@ Transform:
   m_GameObject: {fileID: 8146887867965935788}
   serializedVersion: 2
   m_LocalRotation: {x: -1.0048592e-14, y: 0.7071068, z: -1.0048592e-14, w: -0.7071068}
-  m_LocalPosition: {x: 0.92781454, y: -0.96640617, z: 0.60356534}
-  m_LocalScale: {x: 0.8454595, y: 1.1656098, z: 1.1656067}
+  m_LocalPosition: {x: 0, y: 0, z: 0.7138911}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2567780309036101042}
@@ -98357,8 +98356,8 @@ Transform:
   m_GameObject: {fileID: 9131204788821758787}
   serializedVersion: 2
   m_LocalRotation: {x: -1.0048592e-14, y: 0.7071068, z: -1.0048592e-14, w: -0.7071068}
-  m_LocalPosition: {x: 0.92781484, y: -0.96640563, z: -0.62640893}
-  m_LocalScale: {x: 0.8454595, y: 1.1656098, z: 1.1656067}
+  m_LocalPosition: {x: 0, y: 0, z: -0.7409092}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7855567930850724051}
