@@ -364,7 +364,7 @@ MonoBehaviour:
     handlingStat: 14
     tractionStat: 10
     miniNitroStat: 10
-  floatY: 0
+  vehicleY: 0
   _interpolation: 1
 --- !u!1 &4114771353662426905
 GameObject:
@@ -844,7 +844,7 @@ PrefabInstance:
     - target: {fileID: 8547425973183608489, guid: 038606b3e9c5499499420ee05b061485,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8547425973183608489, guid: 038606b3e9c5499499420ee05b061485,
         type: 3}

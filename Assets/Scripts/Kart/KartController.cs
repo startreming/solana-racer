@@ -31,7 +31,8 @@ namespace Kart
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private KartModel kartModel;
         [SerializeField] private VehicleStats stats;
-        [SerializeField] private float floatY;
+        [SerializeField] private float vehicleY;
+        [SerializeField] private float speedSync = 3f;
 
         private bool _canMove = true;
         private InputActions _input = null;
@@ -95,7 +96,7 @@ namespace Kart
 
             Transform kartVisuals = kart.transform;
             Rigidbody rb = rigidbody;
-            var targetPosition = rb.transform.position - new Vector3(0, -0.25f, 0);
+            var targetPosition = rb.transform.position - new Vector3(0, vehicleY, 0);
 
             float distance = Vector3.Distance(kartVisuals.position, targetPosition);
 
@@ -114,7 +115,7 @@ namespace Kart
             var distance = Quaternion.Angle(kartVisuals.rotation, rotator.rotation);
 
             kartVisuals.rotation = turningAid.rotation;
-               // Quaternion.RotateTowards(kartVisuals.rotation, turningAid.rotation, (distance / time) * deltaTime);
+            //Quaternion.RotateTowards(kartVisuals.rotation, turningAid.rotation, speedSync * deltaTime);
         }
 
         public void SetCanMove(bool state)
@@ -236,7 +237,6 @@ namespace Kart
             if (_driftMode > _prevDriftMode)
             {
                 OnDriftUpgrade(_driftMode);
-                //TODO: Make visual Drift Stage upgrade RpcSendBoostUpgrade(_driftMode);
             }
         }
 
@@ -255,16 +255,8 @@ namespace Kart
             {
                 _isDrifting = true;
                 _driftDirection = _horizontalSteer > 0 ? 1 : -1;
-                //kartModel.Hop();
 
                 OnDriftStart.Invoke();
-                //RpcSetDriftVisuals(true);
-            }
-            
-            if (driftValue && !_isDrifting && !_isGrounded && _airTime < 0.1f && !_trickQueued)
-            {
-                //kartModel.Trick();
-                _trickQueued = true;
             }
         }
 
