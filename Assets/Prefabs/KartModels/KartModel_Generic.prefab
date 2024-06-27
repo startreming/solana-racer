@@ -97957,11 +97957,11 @@ MonoBehaviour:
   bodyPitchAxis: 0
   bodyRollAxis: 2
   bodyRollFactor: 0.7
-  speedFactor: 20
+  speedFactor: 40
   invertBodyPitch: 0
   wheelVelocity: 0.5
   maxSteeringAngle: 15
-  extraBodyAngle: 15
+  extraBodyAngle: 30
 --- !u!1 &7994422950035866468
 GameObject:
   m_ObjectHideFlags: 0
