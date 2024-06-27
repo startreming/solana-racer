@@ -358,12 +358,13 @@ MonoBehaviour:
     m_Bits: 51
   kartModel: {fileID: 6190546898081415441}
   stats:
-    speedStat: 10
-    accelerationStat: 10
-    weightStat: 10
+    speedStat: 6
+    accelerationStat: 2
+    weightStat: 20
     handlingStat: 14
     tractionStat: 10
     miniNitroStat: 10
+  floatY: 0
   _interpolation: 1
 --- !u!1 &4114771353662426905
 GameObject:
