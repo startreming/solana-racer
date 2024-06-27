@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7508621, g: 0.77462274, b: 0.72003055, a: 1}
+  m_IndirectSpecularColor: {r: 0.5238657, g: 0.5617042, b: 0.47704506, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12506,8 +12506,8 @@ Transform:
   m_GameObject: {fileID: 892569711}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 106.6, y: 0.7, z: -7.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 204.62, y: -4.8997, z: -23.246}
+  m_LocalScale: {x: 2.2649703, y: 2.2649703, z: 2.2649703}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1053272948}
@@ -21137,7 +21137,7 @@ PrefabInstance:
     - target: {fileID: 448298800129778506, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: -1.12
       objectReference: {fileID: 0}
     - target: {fileID: 448298800129778506, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
         type: 3}
@@ -21183,6 +21183,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8236783234575076746, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
+        type: 3}
+      propertyPath: stats.speedStat
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8236783234575076746, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
+        type: 3}
+      propertyPath: stats.accelerationStat
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -27608,8 +27618,8 @@ Transform:
   m_GameObject: {fileID: 1898575700}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -36.825, y: -6.4852, z: -5.8}
+  m_LocalScale: {x: 2.2649703, y: 2.2649703, z: 2.2649703}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 331883580}
