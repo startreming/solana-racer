@@ -31,6 +31,7 @@ namespace Kart
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private KartModel kartModel;
         [SerializeField] private VehicleStats stats;
+        [SerializeField] private float floatY;
 
         private bool _canMove = true;
         private InputActions _input = null;
@@ -93,7 +94,7 @@ namespace Kart
 
             Transform kartVisuals = kart.transform;
             Rigidbody rb = rigidbody;
-            var targetPosition = rb.transform.position - new Vector3(0, 0.4f, 0);
+            var targetPosition = rb.transform.position - new Vector3(0, -0.25f, 0);
 
             float distance = Vector3.Distance(kartVisuals.position, targetPosition);
 
