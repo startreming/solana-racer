@@ -309,7 +309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4602006346390522106}
-  - component: {fileID: 3657022232095027126}
+  - component: {fileID: 8236783234575076746}
   m_Layer: 2
   m_Name: Kart
   m_TagString: Untagged
@@ -334,7 +334,7 @@ Transform:
   - {fileID: 6869873453626529405}
   m_Father: {fileID: 448298800129778506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3657022232095027126
+--- !u!114 &8236783234575076746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
