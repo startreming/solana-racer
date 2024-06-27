@@ -64,6 +64,7 @@ namespace Kart
         private void Awake()
         {
             _input = new InputActions();
+            Application.targetFrameRate = 60; 
         }
 
         public void OnEnable()
@@ -98,8 +99,8 @@ namespace Kart
 
             float distance = Vector3.Distance(kartVisuals.position, targetPosition);
 
-            kartVisuals.transform.position =
-                Vector3.MoveTowards(kartVisuals.position, targetPosition, (distance / time) * deltaTime);
+            kartVisuals.transform.position = targetPosition;
+            //Vector3.MoveTowards(kartVisuals.position, targetPosition, (distance / time) * deltaTime);
         }
 
         private void SyncRotation()
@@ -112,8 +113,8 @@ namespace Kart
             
             var distance = Quaternion.Angle(kartVisuals.rotation, rotator.rotation);
 
-            kartVisuals.rotation =
-                Quaternion.RotateTowards(kartVisuals.rotation, turningAid.rotation, (distance / time) * deltaTime);
+            kartVisuals.rotation = turningAid.rotation;
+               // Quaternion.RotateTowards(kartVisuals.rotation, turningAid.rotation, (distance / time) * deltaTime);
         }
 
         public void SetCanMove(bool state)
@@ -148,7 +149,7 @@ namespace Kart
             
             float lerpTime = ApplyInputToEngineTime(forward, delta);
             float targetSpeed = ConvertEngineTimeToSpeed();
-            
+
             if (!_canMove)
             {
                 targetSpeed = 0f;
@@ -158,10 +159,10 @@ namespace Kart
 
             HandleDriftInput(horizontal, drifting);
             CalculateDriftStages();
-            HandleSteering(delta, horizontal);
+            HandleSteering(horizontal);
 
             SyncVisuals(horizontal);
-            HandleNormalRotation(delta);
+            HandleNormalRotation();
             CalculateDrag();
 
             ApplyMovementForces();
@@ -254,7 +255,7 @@ namespace Kart
             {
                 _isDrifting = true;
                 _driftDirection = _horizontalSteer > 0 ? 1 : -1;
-                kartModel.Hop();
+                //kartModel.Hop();
 
                 OnDriftStart.Invoke();
                 //RpcSetDriftVisuals(true);
@@ -262,7 +263,7 @@ namespace Kart
             
             if (driftValue && !_isDrifting && !_isGrounded && _airTime < 0.1f && !_trickQueued)
             {
-                kartModel.Trick();
+                //kartModel.Trick();
                 _trickQueued = true;
             }
         }
@@ -275,11 +276,10 @@ namespace Kart
 
             if (boostLevel > 0)
             {
-                DOVirtual.Float(_currentSpeed * 3, _currentSpeed, .3f * boostLevel, x => _currentSpeed = x);
+                DOVirtual.Float(_currentSpeed * 3, _currentSpeed, .3f * boostLevel, 
+                    x => _currentSpeed = x);
                 OnBoostStart.Invoke();
             }
-            //RpcSendVisuals(boostLevel>0);
-            //RpcSetDriftVisuals(false);
 
             _driftMode = 0;
             _driftPower = 0;
@@ -289,8 +289,6 @@ namespace Kart
 
         private void SyncVisuals(float steering)
         {
-            // this works OK as long as isDrifting, horizontalSteer and driftDirection are sync
-
             var parentAngleTarget = 0f;
 
             if (!_isDrifting)
@@ -307,7 +305,6 @@ namespace Kart
 
             var parent = kartModel.transform.parent;
             parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(parent.localEulerAngles.y, parentAngleTarget, .05f), 0);
-            //parent.localRotation = Quaternion.Euler(0, parentAngleTarget, 0);
 
             var speedDelta = (rigidbody.velocity.magnitude - _prevSpeed)*0.4f;
 
@@ -330,7 +327,7 @@ namespace Kart
             var maxSpeed = _currentSpeed;
             if (_isOffroad) maxSpeed *= _offroadMultiplier;
 
-            maxSpeed += Mathf.Abs(_currentRotate * 0.08f); // Help
+            maxSpeed += Mathf.Abs(_currentRotate * 0.08f);
             
             if (!_isDrifting)
             {
@@ -357,7 +354,7 @@ namespace Kart
             }
         }
 
-        private void HandleSteering(float delta, float horizontalSteer)
+        private void HandleSteering(float horizontalSteer)
         {
             float targetRotation = 0f;
 
@@ -398,7 +395,7 @@ namespace Kart
             return targetRotation;
         }
 
-        private void HandleNormalRotation(float delta)
+        private void HandleNormalRotation()
         {
             RaycastHit hitOn;
             RaycastHit hitNear;

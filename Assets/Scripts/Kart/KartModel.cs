@@ -23,9 +23,6 @@ namespace Kart
         [Header("Model Details")]
         [SerializeField] private Transform steeringWheel;
         [SerializeField] private Transform kartChassis;
-        
-        /*[Header("Pilots and Accessories")]
-        [SerializeField] private Transform pilotSpawner;*/
 
         [Header("Weight Transfer Simulation")]
         [SerializeField] private Axes bodyPitchAxis = Axes.X;
@@ -91,15 +88,6 @@ namespace Kart
             }
             
             _headY = Mathf.Lerp(_headY, targetY, 0.15f);
-        }
-
-        public virtual void Hop()
-        {
-            _tweenHopPosition.Complete(); 
-            _tweenHopScale.Complete();
-            
-            _tweenHopPosition = transform.parent.DOPunchPosition(transform.up * .3f, .3f, 5);
-            _tweenHopScale = transform.parent.DOPunchScale(new Vector3(-0.15f, 0.15f, 0f), .15f, 5);
         }
 
         public virtual Vector3 ApplyToCoordinates(Axes axes, float value)
