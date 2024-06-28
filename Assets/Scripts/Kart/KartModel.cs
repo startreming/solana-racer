@@ -64,8 +64,10 @@ namespace Kart
 
             foreach (var frontWheel in frontIndividualWheels)
             {
-                frontWheel.localEulerAngles = new Vector3(0, _frontWheelAngle, frontWheels.localEulerAngles.z);
-                frontWheel.localEulerAngles += new Vector3(0, 0, rigidbodyMagnitude * wheelVelocity);
+                var newEuler = frontWheel.localEulerAngles;
+                newEuler.y = _frontWheelAngle;
+                newEuler.z += rigidbodyMagnitude * wheelVelocity;
+                frontWheel.localEulerAngles = newEuler;
             }
             
             TurnPilot(horizontalSteer);
