@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Effects;
 using UnityEngine;
 
 namespace Kart
@@ -13,15 +9,12 @@ namespace Kart
         [SerializeField] private ParticleSystem[] wheelDirtParticles;
 
         private KartController _kartController;
-        private KartModel _kartModel;
-        
         private float _wheelDirtParticleMultiplier = 10f;
         private float _smockeParticleMultiplier = 1f;
         
         private void Awake()
         { 
             _kartController = GetComponent<KartController>();
-            _kartModel = _kartController.Model;
         }
 
         private void Update()

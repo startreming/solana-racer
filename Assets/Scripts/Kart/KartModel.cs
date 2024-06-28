@@ -20,6 +20,9 @@ namespace Kart
         [SerializeField] private Transform frontWheels;
         [SerializeField] private Transform backWheels;
         
+        [Header("Model Individual Wheels")]
+        [SerializeField] private Transform[] frontIndividualWheels;
+        
         [Header("Model Details")]
         [SerializeField] private Transform steeringWheel;
         [SerializeField] private Transform kartChassis;
@@ -56,8 +59,14 @@ namespace Kart
             var targetFrontWheelAngle = (horizontalSteer * maxSteeringAngle) / Mathf.Clamp(rigidbodyMagnitude*0.1f, 1f, 10f);
             _frontWheelAngle = Mathf.Lerp(_frontWheelAngle, targetFrontWheelAngle, 0.1f);
             
-            frontWheels.localEulerAngles = new Vector3(0, _frontWheelAngle, frontWheels.localEulerAngles.z);
-            frontWheels.localEulerAngles += new Vector3(0, 0, rigidbodyMagnitude * wheelVelocity);
+            //frontWheels.localEulerAngles = new Vector3(0, _frontWheelAngle, frontWheels.localEulerAngles.z);
+            //frontWheels.localEulerAngles += new Vector3(0, 0, rigidbodyMagnitude * wheelVelocity);
+
+            foreach (var frontWheel in frontIndividualWheels)
+            {
+                frontWheel.localEulerAngles = new Vector3(0, _frontWheelAngle, frontWheels.localEulerAngles.z);
+                frontWheel.localEulerAngles += new Vector3(0, 0, rigidbodyMagnitude * wheelVelocity);
+            }
             
             TurnPilot(horizontalSteer);
         }
