@@ -14,15 +14,16 @@ namespace AI
         private CarController _controller;
         private Transform[] _trackPoints;
         private int _trackPointId;
-        private float _minDistanceToTrackPoint = 5f;
+        private float _minDistanceToTrackPoint = 10f;
         
         private float _forward = 1f;
         private float _horizontal = 0f;
+        private bool _drifting = false;
         
-        public override float Horizontal => GenerateHorizontal();
-        public override float Forward => GenerateForward();
+        public override float Horizontal => _horizontal;
+        public override float Forward => _forward;
 
-        public override bool IsDrifting => GenerateIsDrifting();
+        public override bool IsDrifting => _drifting;
 
         private void Start()
         {
@@ -58,27 +59,21 @@ namespace AI
                 _horizontal = 0f;
             }
             
+            if (angle > 45f || angle < -45f)
+            {
+                _drifting = true;
+            }
+            else
+            {
+                _drifting = false;
+            }
+            
             var distance = Vector3.Distance(_controller.transform.position, _trackPoints[_trackPointId].position);
             if (distance < _minDistanceToTrackPoint)
             {
                 _trackPointId++;
                 _trackPointId %= _trackPoints.Length;
             }
-        }
-
-        private float GenerateForward()
-        {
-            return _forward;
-        }
-
-        private float GenerateHorizontal()
-        {
-            return _horizontal;
-        }
-
-        private bool GenerateIsDrifting()
-        {
-            return false;
         }
 
         public override void Initialize(CarController controller)
