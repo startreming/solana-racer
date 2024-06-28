@@ -1,4 +1,5 @@
-﻿using Kart;
+﻿using Car;
+using Kart;
 using UnityEngine;
 
 namespace Effects
@@ -17,8 +18,8 @@ namespace Effects
         private bool grounded;
         private GroundSurfacePreset surfaceProps;
         
-        [SerializeField] private KartModel kartModel;
-        [SerializeField] private KartController kartController;
+        [SerializeField] private CarModel kartModel;
+        [SerializeField] private CarController kartController;
         private Transform tire;
  
         Vector3 leftPoint = Vector3.zero;
@@ -64,7 +65,7 @@ namespace Effects
             prevSurface = GroundSurfacePreset.CreateInstance<GroundSurfacePreset>();
         }
 
-        public void SetKartControllerAndModel(KartController controller, KartModel model)
+        public void SetKartControllerAndModel(CarController controller, CarModel model)
         {
             kartController = controller;
             kartModel = model;

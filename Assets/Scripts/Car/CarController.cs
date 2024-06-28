@@ -4,13 +4,13 @@ using Domain;
 using Effects;
 using UnityEngine;
 
-namespace Kart
+namespace Car
 {
-    public class KartController : MonoBehaviour
+    public class CarController : MonoBehaviour
     {
         public Vector3 LocalVelocity => _localVelocity;
         public Rigidbody Rigidbody => rigidbody;
-        public KartModel Model => kartModel;
+        public CarModel Model => kartModel;
         public Transform Normal => normal;
         public bool Sliding => _isDrifting;
         public bool Grounded => _isGrounded;
@@ -23,19 +23,18 @@ namespace Kart
         [SerializeField] private Transform kart;
         [SerializeField] private Transform normal;
         [SerializeField] private Transform rotator;
+        [SerializeField] private InputCreator inputCreator;
 
         [Header("Parameters")]
         [SerializeField] private float maxForwardSpeed = 65f;
         [SerializeField] private float maxSteeringSpeed = 15f;
         [SerializeField] private float gravity = 25f;
         [SerializeField] private LayerMask layerMask;
-        [SerializeField] private KartModel kartModel;
+        [SerializeField] private CarModel kartModel;
         [SerializeField] private VehicleStats stats;
         [SerializeField] private float vehicleY;
-        [SerializeField] private float speedSync = 3f;
 
         private bool _canMove = true;
-        private InputActions _input = null;
         private Vector3 _localVelocity;
         private float _airTime = 0f;
         private float _currentSpeed;
@@ -64,18 +63,17 @@ namespace Kart
 
         private void Awake()
         {
-            _input = new InputActions();
             Application.targetFrameRate = 60; 
         }
 
         public void OnEnable()
         {
-            _input.Enable();
+            inputCreator.Initialize(this);
         }
 
         public void OnDisable()
         {
-            _input.Disable();
+            inputCreator.UnInitialize();
         }
 
         public float _interpolation = 1.0f;
@@ -131,10 +129,10 @@ namespace Kart
         private void Move()
         {
             //_wasUserCreated = (state == ReplicateState.UserCreated || state == ReplicateState.ReplayedUserCreated);
-            
-            var forward = _input.Kart.Forward.ReadValue<float>();
-            var horizontal = _input.Kart.Steer.ReadValue<float>();
-            var drifting = _input.Kart.Drift.IsPressed();
+
+            var forward = inputCreator.Forward;
+            var horizontal = inputCreator.Horizontal;
+            var drifting = inputCreator.IsDrifting;
             
             float delta = Time.deltaTime;
 

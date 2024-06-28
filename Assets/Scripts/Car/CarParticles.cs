@@ -1,20 +1,20 @@
 using UnityEngine;
 
-namespace Kart
+namespace Car
 {
-    public class KartParticles : MonoBehaviour
+    public class CarParticles : MonoBehaviour
     {
         [Header("Particle Prefabs")]
         [SerializeField] private ParticleSystem smokeParticle;
         [SerializeField] private ParticleSystem[] wheelDirtParticles;
 
-        private KartController _kartController;
+        private CarController _kartController;
         private float _wheelDirtParticleMultiplier = 10f;
         private float _smockeParticleMultiplier = 1f;
         
         private void Awake()
         { 
-            _kartController = GetComponent<KartController>();
+            _kartController = GetComponent<CarController>();
         }
 
         private void Update()

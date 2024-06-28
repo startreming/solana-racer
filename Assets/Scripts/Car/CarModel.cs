@@ -1,9 +1,9 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Kart
+namespace Car
 {
-    public class KartModel : MonoBehaviour
+    public class CarModel : MonoBehaviour
     {
         public Transform[] BoostParticlePoints => boostParticles; 
         public Transform[] DriftParticlePoints => driftParticles;

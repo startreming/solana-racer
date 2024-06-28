@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using Kart;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
-namespace Kart
+namespace Car
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Camera))]
-    public class KartCamera : MonoBehaviour
+    public class CarCamera : MonoBehaviour
     {
-        [SerializeField] private KartController targetKart;
+        [SerializeField] private CarController targetKart;
         
         [Header("Main properties")]
         [SerializeField] private float distance = 2.0f;
@@ -75,7 +74,7 @@ namespace Kart
             _input.Disable();
         }
 
-        public void Initialize(KartController kart) {
+        public void Initialize(CarController kart) {
             targetKart = kart;
             if (targetKart != null) {
                 if (_smoothObj == null) {
@@ -207,7 +206,7 @@ namespace Kart
             //TODO: Expensive method invocation
             _spectatorMode = true;
             
-            var kartControllers = FindObjectsOfType<KartController>().ToList();
+            var kartControllers = FindObjectsOfType<CarController>().ToList();
 
             if (kartControllers.Count < 1)
                 return;
