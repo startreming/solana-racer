@@ -364,8 +364,8 @@ MonoBehaviour:
     m_Bits: 51
   kartModel: {fileID: 6190546898081415441}
   stats:
-    speedStat: 2
-    accelerationStat: 1
+    speedStat: 24
+    accelerationStat: 3
     weightStat: 20
     handlingStat: 6
     tractionStat: 10
