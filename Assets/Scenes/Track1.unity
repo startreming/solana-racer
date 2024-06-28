@@ -7418,7 +7418,7 @@ GameObject:
   - component: {fileID: 446040445}
   - component: {fileID: 446040444}
   - component: {fileID: 446040443}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CollIner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10295,7 +10295,7 @@ GameObject:
   - component: {fileID: 662665426}
   - component: {fileID: 662665425}
   - component: {fileID: 662665424}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CollOuter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16877,12 +16877,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4396813953502068, guid: 914008923a1f33345b91f7350da887df,
     type: 3}
   m_PrefabInstance: {fileID: 1026902977}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1028149150 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7865831659417541991, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1461346582}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1030644108
 PrefabInstance:
@@ -24456,23 +24450,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8236783234575076746, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
-        type: 3}
-      propertyPath: inputCreator
-      value: 
-      objectReference: {fileID: 1615068994}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7865831659417541991, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2061024476}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1999706912946211554, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1615068994}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b974a5469051fe41a7bcceb1e34b7c2, type: 3}
 --- !u!1001 &1464128434
 PrefabInstance:
@@ -26609,24 +26590,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1610048948}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1615068992 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1999706912946211554, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1461346582}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1615068994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615068992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1cd9e2017b94130bd66f9ef9a3d87ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1619138168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34610,62 +34573,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56ae742cef70a134b819fe5b677450d0, type: 3}
---- !u!1 &2061024475
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2061024476}
-  - component: {fileID: 2061024477}
-  m_Layer: 2
-  m_Name: MonkeyNFT
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2061024476
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061024475}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.65024835, y: -0.06500387, z: -0.7509459, w: -0.09503659}
-  m_LocalPosition: {x: 0.033614118, y: 0.040761083, z: 0.0020827367}
-  m_LocalScale: {x: 0.05361073, y: 0.05361071, z: 0.053610716}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1028149150}
-  m_LocalEulerAnglesHint: {x: 12.781, y: -98.604, z: -3.421}
---- !u!114 &2061024477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061024475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 71e32315d1d87cb4082b653095b4d38d, type: 2}
-  m_DrawDistance: 1000
-  m_FadeScale: 0.9
-  m_StartAngleFade: 180
-  m_EndAngleFade: 180
-  m_UVScale: {x: 1.0182955, y: 1.1267469}
-  m_UVBias: {x: 0, y: 0}
-  m_DecalLayerMask: 1
-  m_ScaleMode: 0
-  m_Offset: {x: -0.22200632, y: 0.18851845, z: 0.23195517}
-  m_Size: {x: 1.2018063, y: 1.3770362, z: 0.5204179}
-  m_FadeFactor: 1
 --- !u!1001 &2062626509
 PrefabInstance:
   m_ObjectHideFlags: 0
