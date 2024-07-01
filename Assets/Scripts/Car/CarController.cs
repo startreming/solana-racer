@@ -8,6 +8,7 @@ namespace Car
 {
     public class CarController : MonoBehaviour
     {
+        public static GameObject PlayerGameObject;
         public Vector3 LocalVelocity => _localVelocity;
         public Rigidbody Rigidbody => rigidbody;
         public CarModel Model => kartModel;
@@ -24,6 +25,7 @@ namespace Car
         [SerializeField] private Transform normal;
         [SerializeField] private Transform rotator;
         [SerializeField] private InputCreator inputCreator;
+        [SerializeField] private bool isPlayer;
 
         [Header("Parameters")]
         [SerializeField] private float maxForwardSpeed = 65f;
@@ -63,7 +65,11 @@ namespace Car
 
         private void Awake()
         {
-            Application.targetFrameRate = 60; 
+            Application.targetFrameRate = 60;
+            if (isPlayer)
+            {
+                PlayerGameObject = transform.parent.gameObject;
+            }
         }
 
         public void OnEnable()
