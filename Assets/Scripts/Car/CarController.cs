@@ -36,7 +36,7 @@ namespace Car
         [SerializeField] private VehicleStats stats;
         [SerializeField] private float vehicleY;
 
-        private bool _canMove = true;
+        private bool _canMove = false;
         private Vector3 _localVelocity;
         private float _airTime = 0f;
         private float _currentSpeed;

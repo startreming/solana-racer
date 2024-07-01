@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5503491363874594147}
   - component: {fileID: 8266138992653492832}
   - component: {fileID: 8791695136364303593}
-  - component: {fileID: 3010188678623650290}
+  - component: {fileID: 8341205016154509331}
   m_Layer: 2
-  m_Name: Sphere (1)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 823021793666379902}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -80, y: 0, z: 235.3}
+  m_LocalPosition: {x: -70.7, y: 0, z: 278.7}
   m_LocalScale: {x: 35, y: 35, z: 35}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -106,7 +106,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3010188678623650290
+--- !u!114 &8341205016154509331
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,11 +115,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 823021793666379902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 1
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &3402251138805872543
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,9 +132,9 @@ GameObject:
   - component: {fileID: 910121849490700325}
   - component: {fileID: 8228557568154429412}
   - component: {fileID: 5614694475574972133}
-  - component: {fileID: 6740508368981561452}
+  - component: {fileID: 2927894067345680413}
   m_Layer: 2
-  m_Name: Sphere (7)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6740508368981561452
+--- !u!114 &2927894067345680413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,11 +235,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3402251138805872543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 7
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &3419255113937665117
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,9 +252,9 @@ GameObject:
   - component: {fileID: 2081536708005692101}
   - component: {fileID: 2009968370363859814}
   - component: {fileID: 8995186406588336377}
-  - component: {fileID: 6277328783657205807}
+  - component: {fileID: 6511681265716344957}
   m_Layer: 2
-  m_Name: Sphere (5)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -346,7 +346,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6277328783657205807
+--- !u!114 &6511681265716344957
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -355,11 +355,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3419255113937665117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 5
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &3648102359506887262
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,9 +372,9 @@ GameObject:
   - component: {fileID: 6167139669848193565}
   - component: {fileID: 4601455432510773074}
   - component: {fileID: 1091722659923670225}
-  - component: {fileID: 4572746121102065891}
+  - component: {fileID: 4368937012361210431}
   m_Layer: 2
-  m_Name: Sphere (4)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -466,7 +466,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4572746121102065891
+--- !u!114 &4368937012361210431
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -475,11 +475,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3648102359506887262}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 4
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &4315274460586299599
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,9 +492,9 @@ GameObject:
   - component: {fileID: 2660716612675053617}
   - component: {fileID: 7253533723539146819}
   - component: {fileID: 7666100179803285579}
-  - component: {fileID: 2533196635604139741}
+  - component: {fileID: 3988526413411081554}
   m_Layer: 2
-  m_Name: Sphere (9)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -586,7 +586,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2533196635604139741
+--- !u!114 &3988526413411081554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -595,11 +595,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4315274460586299599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 9
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &5541027000104980364
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,9 +612,9 @@ GameObject:
   - component: {fileID: 3413194178823045693}
   - component: {fileID: 5477498300797464873}
   - component: {fileID: 9089018822805558996}
-  - component: {fileID: 6518377005987725967}
+  - component: {fileID: 3512008328608528511}
   m_Layer: 2
-  m_Name: Sphere (11)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -706,7 +706,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6518377005987725967
+--- !u!114 &3512008328608528511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -715,11 +715,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5541027000104980364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 11
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &5726054038834294031
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,8 +729,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3193129777379703728}
-  - component: {fileID: 2391055645005154961}
-  - component: {fileID: 1215074201210487364}
+  - component: {fileID: 3833625869510849679}
+  - component: {fileID: 6184717595587186592}
   m_Layer: 0
   m_Name: Race Checkpoints
   m_TagString: Untagged
@@ -748,7 +748,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0942476, y: 1.0942476, z: 1.0942476}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5710733111915659632}
@@ -767,7 +767,7 @@ Transform:
   - {fileID: 3655502281970968623}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2391055645005154961
+--- !u!114 &3833625869510849679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -776,26 +776,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 5726054038834294031}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df1f2acf73a682741afbe6b304bdce61, type: 3}
+  m_Script: {fileID: 11500000, guid: 78ab5de18e2c45b8b61dffa5cca7f557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxLaps: 3
+  availablePlayers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   checkpoints:
-  - {fileID: 34628289096975487}
-  - {fileID: 3010188678623650290}
-  - {fileID: 7986717151776142220}
-  - {fileID: 4195127843339174083}
-  - {fileID: 4572746121102065891}
-  - {fileID: 6277328783657205807}
-  - {fileID: 5676020535733254938}
-  - {fileID: 6740508368981561452}
-  - {fileID: 1920378673745303116}
-  - {fileID: 2533196635604139741}
-  - {fileID: 1499423330562530069}
-  - {fileID: 6518377005987725967}
-  - {fileID: 2941376427705900821}
-  - {fileID: 509464638272126609}
---- !u!114 &1215074201210487364
+  - {fileID: 3656512221289879018}
+  - {fileID: 8341205016154509331}
+  - {fileID: 338648777560272637}
+  - {fileID: 2768292871641818981}
+  - {fileID: 4368937012361210431}
+  - {fileID: 6511681265716344957}
+  - {fileID: 7867700358368749826}
+  - {fileID: 2927894067345680413}
+  - {fileID: 5826899439756619083}
+  - {fileID: 3988526413411081554}
+  - {fileID: 3042152393366954627}
+  - {fileID: 3512008328608528511}
+  - {fileID: 4568211758286919921}
+  - {fileID: 6833986452971804317}
+--- !u!114 &6184717595587186592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -804,49 +808,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5726054038834294031}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Script: {fileID: 11500000, guid: a59518507f7546f4ca84c3ae4eb2be41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IsNested>k__BackingField: 0
-  _enablePrediction: 0
-  _predictionType: 0
-  _graphicalObject: {fileID: 0}
-  _enableStateForwarding: 1
-  _ownerInterpolation: 1
-  _enableTeleport: 0
-  _ownerTeleportThreshold: 1
-  _spectatorAdaptiveInterpolation: 1
-  _spectatorInterpolation: 1
-  _adaptiveSmoothingType: 0
-  _customSmoothingData:
-    NormalPercent: 1.25
-    CollisionPercent: 0.125
-    CollisionStep: 0.75
-    NormalStep: 0.25
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours: []
-  <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField: []
-  SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
-  _isNetworked: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _defaultDespawnType: 0
-  NetworkObserver: {fileID: 0}
-  _preconfiguredSmoothingDataPreview:
-    NormalPercent: 0.625
-    CollisionPercent: 0.0625
-    CollisionStep: 1
-    NormalStep: 0.25
-  <PrefabId>k__BackingField: 0
-  <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 1235304145
-  <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 18440837571325682851
 --- !u!1 &5735642592197380018
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,9 +823,9 @@ GameObject:
   - component: {fileID: 7805665522795142947}
   - component: {fileID: 2641735601759952202}
   - component: {fileID: 7758743693019702625}
-  - component: {fileID: 34628289096975487}
+  - component: {fileID: 3656512221289879018}
   m_Layer: 2
-  m_Name: Sphere
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -876,7 +840,7 @@ Transform:
   m_GameObject: {fileID: 5735642592197380018}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -65.11, y: 0, z: 139.38}
+  m_LocalPosition: {x: -81.6, y: 0, z: 225}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -953,7 +917,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &34628289096975487
+--- !u!114 &3656512221289879018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -962,11 +926,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5735642592197380018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 0
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &5872560912320316841
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,9 +943,9 @@ GameObject:
   - component: {fileID: 8297499418848708294}
   - component: {fileID: 8827611902122119027}
   - component: {fileID: 962412676438737481}
-  - component: {fileID: 2941376427705900821}
+  - component: {fileID: 4568211758286919921}
   m_Layer: 2
-  m_Name: Sphere (12)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1073,7 +1037,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2941376427705900821
+--- !u!114 &4568211758286919921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1082,11 +1046,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5872560912320316841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 12
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &7764315647278570774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,9 +1063,9 @@ GameObject:
   - component: {fileID: 5295541870382699076}
   - component: {fileID: 7222861080408535340}
   - component: {fileID: 4276614105429299938}
-  - component: {fileID: 5676020535733254938}
+  - component: {fileID: 7867700358368749826}
   m_Layer: 2
-  m_Name: Sphere (6)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1193,7 +1157,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5676020535733254938
+--- !u!114 &7867700358368749826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1202,11 +1166,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7764315647278570774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 6
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &7895123442307035104
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,9 +1183,9 @@ GameObject:
   - component: {fileID: 1294092417695130507}
   - component: {fileID: 6255319628540278546}
   - component: {fileID: 6065948772058572078}
-  - component: {fileID: 4195127843339174083}
+  - component: {fileID: 2768292871641818981}
   m_Layer: 2
-  m_Name: Sphere (3)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1313,7 +1277,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4195127843339174083
+--- !u!114 &2768292871641818981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1322,11 +1286,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7895123442307035104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 3
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &8159725389867340626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,9 +1303,9 @@ GameObject:
   - component: {fileID: 467600828584484471}
   - component: {fileID: 4428434896772238344}
   - component: {fileID: 6328811960345133757}
-  - component: {fileID: 7986717151776142220}
+  - component: {fileID: 338648777560272637}
   m_Layer: 2
-  m_Name: Sphere (2)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1433,7 +1397,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7986717151776142220
+--- !u!114 &338648777560272637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1442,11 +1406,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8159725389867340626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 2
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &8592390409423609691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,9 +1423,9 @@ GameObject:
   - component: {fileID: 1276948778315313974}
   - component: {fileID: 4507053926313064943}
   - component: {fileID: 5899610395838901244}
-  - component: {fileID: 509464638272126609}
+  - component: {fileID: 6833986452971804317}
   m_Layer: 2
-  m_Name: Sphere (13)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1553,7 +1517,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &509464638272126609
+--- !u!114 &6833986452971804317
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1562,11 +1526,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8592390409423609691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 13
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &8743931477451469346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,9 +1543,9 @@ GameObject:
   - component: {fileID: 773445675517615946}
   - component: {fileID: 6081750281416171221}
   - component: {fileID: 5355999029457516343}
-  - component: {fileID: 1920378673745303116}
+  - component: {fileID: 5826899439756619083}
   m_Layer: 2
-  m_Name: Sphere (8)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1673,7 +1637,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1920378673745303116
+--- !u!114 &5826899439756619083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1682,11 +1646,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8743931477451469346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 8
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}
 --- !u!1 &8980914600675890281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,9 +1663,9 @@ GameObject:
   - component: {fileID: 7449171012083316382}
   - component: {fileID: 5573490206764438464}
   - component: {fileID: 2846033696887689590}
-  - component: {fileID: 1499423330562530069}
+  - component: {fileID: 3042152393366954627}
   m_Layer: 2
-  m_Name: Sphere (10)
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1793,7 +1757,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1499423330562530069
+--- !u!114 &3042152393366954627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1802,8 +1766,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8980914600675890281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2efd08b2d1e254c862089996c7f407, type: 3}
+  m_Script: {fileID: 11500000, guid: 42338d3d1946439688057205fdc70b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 10
-  _lapManager: {fileID: 2391055645005154961}
+  lapManager: {fileID: 3833625869510849679}

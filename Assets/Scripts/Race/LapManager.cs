@@ -21,6 +21,7 @@ namespace Race
         private readonly List<Racer> _racers = new List<Racer>();
         private float _currentRaceTime = 0f;
         private float _leadingCheckTimer = 1f;
+        private int _currentLap;
 
         private void Update()
         {
@@ -125,7 +126,13 @@ namespace Race
             else
             {
                 if(racer.Represents == CarController.PlayerGameObject)
-                    OnUpdatedLap.Invoke(racer.Lap+1);
+                {
+                    if (_currentLap != racer.Lap+1)
+                    {
+                        _currentLap = racer.Lap + 1;
+                        OnUpdatedLap.Invoke(_currentLap);
+                    }
+                }
             }
         }
         
