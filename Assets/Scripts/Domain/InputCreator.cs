@@ -1,5 +1,4 @@
 ﻿using Car;
-using Kart;
 using UnityEngine;
 
 namespace Domain
@@ -12,5 +11,6 @@ namespace Domain
 
         public abstract void Initialize(CarController controller);
         public abstract void UnInitialize();
+        public abstract void Stop();
     }
 }

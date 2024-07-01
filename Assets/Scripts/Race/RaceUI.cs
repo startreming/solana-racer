@@ -10,6 +10,7 @@ namespace Race
         [SerializeField] private LapManager lapManager;
         [SerializeField] private TMP_Text currentLap;
         [SerializeField] private TMP_Text currentPlace;
+        [SerializeField] private TMP_Text totalLaps;
         [SerializeField] private RacerUI racer;
         [SerializeField] private Transform racersContainer;
 
@@ -18,6 +19,7 @@ namespace Race
             lapManager.OnUpdatedPlace += UpdatePlace;
             lapManager.OnUpdatedLap += UpdateLap;
             lapManager.OnUpdatedRacers += UpdateRacers;
+            totalLaps.text = lapManager.Laps.ToString();
         }
 
         private void OnDestroy()
@@ -47,9 +49,8 @@ namespace Race
             for (var place = 0; place < racers.Count; place++)
             {
                 var racerData = racers[place];
-                racerData.Place = place+1;
                 var racerUI = Instantiate(racer, racersContainer);
-                racerUI.UpdatePlayer(racerData);
+                racerUI.UpdatePlayer(racerData, place+1);
                 racerUI.transform.SetSiblingIndex(place);
             }
         }

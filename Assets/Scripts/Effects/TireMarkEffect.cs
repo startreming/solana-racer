@@ -1,5 +1,4 @@
 ﻿using Car;
-using Kart;
 using UnityEngine;
 
 namespace Effects

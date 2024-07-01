@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Car;
+using Domain;
 using UnityEngine;
 
 namespace Race
 {
     public class LapManager : MonoBehaviour
     {
+        public int Laps => maxLaps;
         public event Action<int> OnUpdatedLap = newLap => { };
         public event Action<int> OnUpdatedPlace = newPlace => { };
         public event Action<List<Racer>> OnUpdatedRacers = newRacers => { };
-        
+
         [SerializeField] private int maxLaps = 3;
         [SerializeField] private GameObject[] availablePlayers;
         [SerializeField] private List<LapCheckpoint> checkpoints = new List<LapCheckpoint>();
-        
+
         private readonly List<Racer> _racers = new List<Racer>();
         private float _currentRaceTime = 0f;
         private float _leadingCheckTimer = 1f;
@@ -48,7 +50,12 @@ namespace Race
             if (ownRacerEntity == null)
                 return;
             
-            List<Racer> orderedRacers = _racers.OrderByDescending(r => r.RaceProgress).ToList();
+            List<Racer> orderedRacers = _racers.OrderByDescending(r =>
+            {
+                if (r.Finished)
+                    return r.PlaceInverted;
+                return r.RaceProgress;
+            }).ToList();
 
             var ownRacer = _racers.FirstOrDefault(x=> x.Represents == ownRacerEntity);
             
@@ -90,9 +97,6 @@ namespace Race
             }
             
             // Update all racers
-            
-            if(racer.Represents == CarController.PlayerGameObject)
-                OnUpdatedLap.Invoke(racer.Lap+1);
 
             if (racer.Lap == maxLaps)
             {
@@ -110,8 +114,18 @@ namespace Race
                 }
                 
                 //UpdateScoreboard(playerName, timeElapsed);
-                
+
+                var inputCreator = racer.Represents.GetComponent<InputCreator>();
+                inputCreator.Stop();
+                inputCreator.UnInitialize();
                 racer.Finished = true;
+                var racers = _racers.OrderByDescending(r => r.RaceProgress).ToList();
+                racer.PlaceInverted = availablePlayers.Length - racers.IndexOf(racer);
+            }
+            else
+            {
+                if(racer.Represents == CarController.PlayerGameObject)
+                    OnUpdatedLap.Invoke(racer.Lap+1);
             }
         }
         
@@ -134,10 +148,10 @@ namespace Race
             float checkpointProgress = 1f-(distanceCovered/distanceToCover);
 
             progress += checkpointContribution * checkpointProgress;
-            progress = Mathf.Clamp(progress, 0f, 1f);
 
             progress = (progress / maxLaps);
             progress += (1f/maxLaps) * (racer.Lap);
+            progress = Mathf.Clamp(progress, 0f, 1f);
             
             return progress;
         }
@@ -163,6 +177,7 @@ namespace Race
         public int Progress;
         public int Lap;
         public int Place;
+        public int PlaceInverted;
         public float RaceProgress;
         public bool Finished;
     }

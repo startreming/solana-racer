@@ -8,10 +8,10 @@ namespace Race
         [SerializeField] private TMP_Text place;
         [SerializeField] private TMP_Text racerName;
 
-        public void UpdatePlayer(Racer racer)
+        public void UpdatePlayer(Racer racer, int placeIndex)
         {
-            place.text = racer.Place.ToString();
-            racerName.text = racer.Represents.name;
+            place.text = placeIndex.ToString();
+            racerName.text = racer.Represents.name+$" {Mathf.Round(racer.RaceProgress*100)}%";
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Linq;
 using Car;
 using Domain;
-using Kart;
 using UnityEngine;
 
 namespace AI
@@ -25,6 +24,7 @@ namespace AI
         private int _carStuckCounter;
         private int _maxCarStuckCounter = 10;
         private bool _isCarStuck;
+        private bool _canMove;
         
         public override float Horizontal => _horizontal;
         public override float Forward => _forward;
@@ -38,6 +38,21 @@ namespace AI
 
         private void Update()
         {
+            if(!_canMove)
+            {
+                if(_controller.CurrentSpeed > 0)
+                {
+                    _forward = -1f;
+                }
+                else
+                {
+                    _forward = 0f;
+                }
+            }
+
+            if (!_canMove)
+                return;
+            
             if (_isCarStuck) return;
             
             var currentForward = _controller.transform.forward;
@@ -105,11 +120,19 @@ namespace AI
         public override void Initialize(CarController controller)
         {
             _controller = controller;
+            _canMove = true;
         }
 
         public override void UnInitialize()
         {
-            
+            _canMove = false;
+        }
+
+        public override void Stop()
+        {
+            _forward = 0;
+            _drifting = false;
+            _horizontal = 0;
         }
     }
 }
