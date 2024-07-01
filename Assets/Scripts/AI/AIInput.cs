@@ -13,18 +13,23 @@ namespace AI
         
         private CarController _controller;
         private Transform[] _trackPoints;
-        private int _trackPointId;
-        private float _minDistanceToTrackPoint = 10f;
-        
         private float _forward = 1f;
         private float _horizontal = 0f;
         private bool _drifting = false;
         
+        private int _trackPointId;
+        private float _minDistanceToTrackPoint = 15f;
+        private float _lastDistance;
+        private bool _changedTrackPoint;
+        private float _minDifferenceDistance = 0.001f;
+        private int _carStuckCounter;
+        private int _maxCarStuckCounter = 10;
+        private bool _isCarStuck;
+        
         public override float Horizontal => _horizontal;
         public override float Forward => _forward;
-
         public override bool IsDrifting => _drifting;
-
+        
         private void Start()
         {
             _trackPoints = aiPath.GetComponentsInChildren<Transform>().Skip(1).ToArray();
@@ -33,6 +38,8 @@ namespace AI
 
         private void Update()
         {
+            if (_isCarStuck) return;
+            
             var currentForward = _controller.transform.forward;
             var toNextPoint = _trackPoints[_trackPointId].position - _controller.transform.position;
             currentForward.Normalize();
@@ -43,22 +50,8 @@ namespace AI
             /*Debug.DrawRay(_controller.transform.position, currentForward * 5, Color.blue);
             Debug.DrawRay(_controller.transform.position, toNextPoint * 5, Color.red);*/
             
-            //_horizontal = Mathf.Clamp(angle / 90f, -1f, 1f);
-            if (angle > 0.1f)
-            {
-                // Turn right
-                _horizontal = 1f;
-            }
-            else if (angle < -0.1f)
-            {
-                // Turn left
-                _horizontal = -1f;
-            }
-            else
-            {
-                _horizontal = 0f;
-            }
-            
+            _horizontal = Mathf.Clamp(angle / 45f, -1f, 1f);
+
             if (angle > 45f || angle < -45f)
             {
                 _drifting = true;
@@ -69,11 +62,44 @@ namespace AI
             }
             
             var distance = Vector3.Distance(_controller.transform.position, _trackPoints[_trackPointId].position);
+
             if (distance < _minDistanceToTrackPoint)
             {
                 _trackPointId++;
                 _trackPointId %= _trackPoints.Length;
+                _changedTrackPoint = true;
             }
+            else if (!_isCarStuck)
+            {
+                var difference = _lastDistance - distance;
+                if (!_changedTrackPoint && difference < _minDifferenceDistance && difference > -_minDifferenceDistance)
+                {
+                    _carStuckCounter++;
+                    if (_carStuckCounter > _maxCarStuckCounter)
+                    {
+                        Debug.Log("Car is stuck");
+                        _isCarStuck = true;
+                        _forward = -1;
+                        _horizontal = 0;
+                        Invoke(nameof(SetCarStuckToFalse), 2f);
+                    }
+                }
+                else
+                {
+                    _carStuckCounter = 0;
+                }
+
+                _changedTrackPoint = false;
+            }
+            _lastDistance = distance;
+        }
+
+        private void SetCarStuckToFalse()
+        {
+            Debug.Log("Car unstuck");
+            _isCarStuck = false;
+            _carStuckCounter = 0;
+            _forward = 1;
         }
 
         public override void Initialize(CarController controller)
