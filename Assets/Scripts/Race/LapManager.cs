@@ -13,15 +13,24 @@ namespace Race
         public event Action<int> OnUpdatedLap = newLap => { };
         public event Action<int> OnUpdatedPlace = newPlace => { };
         public event Action<List<Racer>> OnUpdatedRacers = newRacers => { };
+        public event Action<List<Racer>> OnFinishedRace = racers => { };
+        public event Action<Racer> OnRacerFinishedRace = racer => { };
 
         [SerializeField] private int maxLaps = 3;
         [SerializeField] private GameObject[] availablePlayers;
         [SerializeField] private List<LapCheckpoint> checkpoints = new List<LapCheckpoint>();
 
         private readonly List<Racer> _racers = new List<Racer>();
-        private float _currentRaceTime = 0f;
+        private float _raceStartTime;
         private float _leadingCheckTimer = 1f;
         private int _currentLap;
+        private int _currentRacerPlace = 1;
+
+        private void Start()
+        {
+            var raceManager = GetComponent<RaceManager>();
+            raceManager.OnStartedRace += StartRace;
+        }
 
         private void Update()
         {
@@ -35,6 +44,12 @@ namespace Race
                 CheckRacerPositions();
                 _leadingCheckTimer = 1f;
             }
+        }
+
+        private void StartRace()
+        {
+            _raceStartTime = Time.time;
+            _currentRacerPlace = 1;
         }
         
         private void SetRacersProgress()
@@ -80,6 +95,12 @@ namespace Race
                     }
                 }
             }
+
+            if (_racers.TrueForAll(r => r.Finished))
+            {
+                Debug.Log("All players finished!!!");
+                OnFinishedRace?.Invoke(_racers);
+            }
         }
         
         private void CheckRacerProgress(LapCheckpoint lapCheckpoint, Racer racer)
@@ -101,18 +122,10 @@ namespace Race
 
             if (racer.Lap == maxLaps)
             {
-                var playerName = "Player name";
-
-                string timeElapsed = "Too long";
-                if (_currentRaceTime > TimeSpan.MaxValue.TotalSeconds)
-                {
-                    _currentRaceTime = 0;
-                }
-                else
-                {
-                    TimeSpan time = TimeSpan.FromSeconds(_currentRaceTime);
-                    timeElapsed = time.ToString(@"mm\:ss\:fff");
-                }
+                var time = TimeSpan.FromSeconds(Time.time - _raceStartTime);
+                var timeElapsed = time.ToString(@"mm\:ss\:fff");
+                racer.TotalRaceTime = time;
+                Debug.Log($"Racer {racer.Represents.name} finished in {timeElapsed}");
                 
                 //UpdateScoreboard(playerName, timeElapsed);
 
@@ -122,6 +135,10 @@ namespace Race
                 racer.Finished = true;
                 var racers = _racers.OrderByDescending(r => r.RaceProgress).ToList();
                 racer.PlaceInverted = availablePlayers.Length - racers.IndexOf(racer);
+                racer.Place = _currentRacerPlace;
+                _currentRacerPlace++;
+                
+                OnRacerFinishedRace?.Invoke(racer);
             }
             else
             {
@@ -187,5 +204,6 @@ namespace Race
         public int PlaceInverted;
         public float RaceProgress;
         public bool Finished;
+        public TimeSpan TotalRaceTime;
     }
 }

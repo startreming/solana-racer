@@ -23,6 +23,9 @@ namespace Race
         [SerializeField] private Image speedometerFillImage;
         [SerializeField] private RacerUI racer;
         [SerializeField] private Transform racersContainer;
+        [SerializeField] private RacerLeaderBoardUI racerLeaderBoardUIPrefab;
+        [SerializeField] private GameObject leaderBoard;
+        [SerializeField] private Transform racersLeaderBoardContainer;
 
         private float _maxKPHSpeed = 120f; 
         private float _minSpeedometerFill = 0.1f;
@@ -37,9 +40,13 @@ namespace Race
             lapManager.OnUpdatedRacers += UpdateRacers;
             raceManager.OnUpdatedTimer += UpdateTimer;
             raceManager.OnStartedRace += StartRace;
+            lapManager.OnFinishedRace += FinishRace;
+            lapManager.OnRacerFinishedRace += RacerFinishRace;
             
             totalLaps.text = lapManager.Laps.ToString();
             timerText.text = raceManager.WaitToStart.ToString();
+            currentSpeed.text = "0 km/h";
+            leaderBoard.SetActive(false);
         }
 
         private void OnDestroy()
@@ -49,6 +56,7 @@ namespace Race
             lapManager.OnUpdatedRacers -= UpdateRacers;
             raceManager.OnUpdatedTimer -= UpdateTimer;
             raceManager.OnStartedRace -= StartRace;
+            lapManager.OnFinishedRace -= FinishRace;
         }
 
         private void Update()
@@ -119,6 +127,23 @@ namespace Race
         private void DisableTimer()
         {
             timerContainer.SetActive(false);
+        }
+        
+        private void FinishRace(List<Racer> racers)
+        {
+            
+        }
+        
+        private void RacerFinishRace(Racer finishedRacer)
+        {
+            if (finishedRacer.Represents == CarController.PlayerGameObject)
+            {
+                _raceStarted = false;
+                leaderBoard.SetActive(true);
+            }
+            
+            var racerUI = Instantiate(racerLeaderBoardUIPrefab, racersLeaderBoardContainer);
+            racerUI.UpdatePlayer(finishedRacer);
         }
     }
 }
