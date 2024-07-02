@@ -65,7 +65,6 @@ namespace Car
 
         private void Awake()
         {
-            Application.targetFrameRate = 60;
             if (isPlayer)
             {
                 PlayerGameObject = transform.parent.gameObject;
@@ -86,11 +85,14 @@ namespace Car
 
         private void Update()
         {
-            Move();
-            
             SyncPosition();
             SyncRotation();
             _localVelocity = normal.InverseTransformDirection(rigidbody.velocity);
+        }
+
+        private void FixedUpdate()
+        {
+            Move();
         }
 
         private void SyncPosition()
@@ -160,6 +162,7 @@ namespace Car
                 targetSpeed = 0f;
                 _engineTime = 0f;
             }
+            
             _currentSpeed = Mathf.SmoothStep(_currentSpeed, targetSpeed, delta * lerpTime);
 
             HandleDriftInput(horizontal, drifting);
@@ -171,7 +174,8 @@ namespace Car
             CalculateDrag();
 
             ApplyMovementForces();
-            rigidbody.AddForce(Vector3.down * gravity * gravityMultiplier, ForceMode.Acceleration);
+            var multiplier = Vector3.down * gravity * gravityMultiplier;
+            rigidbody.AddForce(multiplier, ForceMode.Acceleration);
             _prevSpeed = rigidbody.velocity.magnitude;
         }
 
@@ -329,14 +333,14 @@ namespace Car
             {
                 var direction = rotator.transform.forward;
                 direction += kart.transform.right * _currentRotate * 0.05f;
-                
+
                 rigidbody.AddForce(direction.normalized * maxSpeed, ForceMode.Acceleration);
             }
             else
             {
                 var direction = kart.transform.forward;
                 direction += kart.transform.right * -_driftDirection * 0.25f;
-                
+
                 rigidbody.AddForce(direction.normalized * maxSpeed, ForceMode.Acceleration);
             }
         }
