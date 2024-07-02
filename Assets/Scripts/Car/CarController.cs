@@ -8,6 +8,7 @@ namespace Car
 {
     public class CarController : MonoBehaviour
     {
+        public bool CanMove => _canMove;
         public static GameObject PlayerGameObject;
         public Vector3 LocalVelocity => _localVelocity;
         public Rigidbody Rigidbody => rigidbody;

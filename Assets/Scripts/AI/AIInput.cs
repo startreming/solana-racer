@@ -36,7 +36,7 @@ namespace AI
             _trackPointId = 1;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if(!_canMove)
             {
@@ -50,6 +50,9 @@ namespace AI
                 }
             }
 
+            if (!_controller.CanMove)
+                return;
+            
             if (!_canMove)
                 return;
             
