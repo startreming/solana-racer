@@ -238,6 +238,76 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!1 &2527022915103952284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6157881588582160638}
+  - component: {fileID: 9054642459913291923}
+  m_Layer: 2
+  m_Name: EngineSounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6157881588582160638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2527022915103952284}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4602006346390522106}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9054642459913291923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2527022915103952284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c6e2d253384480e9331e4cd0741f44d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 8236783234575076746}
+  sounds:
+  - MinRPM: 0
+    MaxRPM: 0.5
+    EngineClip: {fileID: 8300000, guid: 592671ad38f79ae419cb9b052faa542a, type: 3}
+    DirtClip: {fileID: 0}
+    MinPitch: 0.9
+    MaxPitch: 1.2
+  - MinRPM: 1
+    MaxRPM: 15
+    EngineClip: {fileID: 8300000, guid: 51686b2d1bfff8b4abcf02780ee2b3a8, type: 3}
+    DirtClip: {fileID: 8300000, guid: 3b6342651128e154099e306795be99c6, type: 3}
+    MinPitch: 0.9
+    MaxPitch: 1.2
+  - MinRPM: 15
+    MaxRPM: 60
+    EngineClip: {fileID: 8300000, guid: 5983ea4a2c6208e4baa37f775aee7136, type: 3}
+    DirtClip: {fileID: 8300000, guid: a6a86ff4e5e6d6d49ae97204ce56846e, type: 3}
+    MinPitch: 0.9
+    MaxPitch: 1.2
+  - MinRPM: 60
+    MaxRPM: 200
+    EngineClip: {fileID: 8300000, guid: 36bb6df8d7810e84fb522d29c7a14e7c, type: 3}
+    DirtClip: {fileID: 8300000, guid: edea6982c1032d44abad0eec4321ce88, type: 3}
+    MinPitch: 0.9
+    MaxPitch: 1.2
 --- !u!1 &2958632813167486275
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,6 +425,7 @@ Transform:
   - {fileID: 707113754671088111}
   - {fileID: 6869873453626529405}
   - {fileID: 4159474248272810670}
+  - {fileID: 6157881588582160638}
   m_Father: {fileID: 448298800129778506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8236783234575076746
