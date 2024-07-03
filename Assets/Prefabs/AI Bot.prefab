@@ -175,6 +175,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: KartModel_Lance
       objectReference: {fileID: 0}
+    - target: {fileID: 9111812214322826845, guid: 139494435d47e024c8e603033f9daaed,
+        type: 3}
+      propertyPath: m_RefreshMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 46121540543836313, guid: 139494435d47e024c8e603033f9daaed, type: 3}
