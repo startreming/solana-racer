@@ -29,18 +29,19 @@ namespace Car
         private AudioSource CreateAudioSource(AudioClip clip)
         {
             var audioS = gameObject.AddComponent<AudioSource>();
+            audioS.Stop();
+            audioS.playOnAwake = false;
             audioS.clip = clip;
             audioS.loop = true;
             audioS.priority = 0;
             audioS.spatialBlend = 1;
             audioS.volume = 0;
-            audioS.Play();
             return audioS;
         }
 
         private void Update()
         {
-            var speed = controller.Rigidbody.velocity.magnitude;
+            var speed = !controller.CanMove ? 0 : controller.Rigidbody.velocity.magnitude;
             var speedKPH = speed * 4f;
             foreach (var (data, audioS) in _engineSources)
             {
@@ -54,6 +55,15 @@ namespace Car
                 if (dirtSource != null)
                 {
                     dirtSource.volume = engineSource.volume;
+                }
+
+                if (dirtSource != null && !dirtSource.isPlaying)
+                {
+                    audioS.DirtSource.Play();
+                }
+                if (engineSource != null && !engineSource.isPlaying)
+                {
+                    audioS.EngineSource.Play();
                 }
             }
         }
