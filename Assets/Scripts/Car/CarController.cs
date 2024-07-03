@@ -10,6 +10,7 @@ namespace Car
     {
         public bool CanMove => _canMove;
         public static GameObject PlayerGameObject;
+        public static CarController PlayerController;
         public Vector3 LocalVelocity => _localVelocity;
         public Rigidbody Rigidbody => rigidbody;
         public CarModel Model => kartModel;
@@ -69,6 +70,7 @@ namespace Car
             if (isPlayer)
             {
                 PlayerGameObject = transform.parent.gameObject;
+                PlayerController = this;
             }
         }
 

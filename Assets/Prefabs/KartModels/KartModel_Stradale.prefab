@@ -27,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 7052651649648223510, guid: 038606b3e9c5499499420ee05b061485,
         type: 3}
       propertyPath: m_Name
-      value: KartModel_Impreeza Variant
+      value: KartModel_Stradale
       objectReference: {fileID: 0}
     - target: {fileID: 7846366382348236600, guid: 038606b3e9c5499499420ee05b061485,
         type: 3}

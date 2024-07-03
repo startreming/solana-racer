@@ -176,7 +176,8 @@ PrefabInstance:
       value: KartModel_Lance
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 46121540543836313, guid: 139494435d47e024c8e603033f9daaed, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 139494435d47e024c8e603033f9daaed, type: 3}
