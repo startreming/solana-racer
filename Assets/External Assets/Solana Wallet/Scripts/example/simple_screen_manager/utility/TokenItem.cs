@@ -8,6 +8,7 @@ using Solana.Unity.Rpc.Models;
 using Solana.Unity.SDK.Utility;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using WebSocketSharp;
 
@@ -23,11 +24,16 @@ namespace Solana.Unity.SDK.Example
         public RawImage logo;
 
         public Button transferButton;
+        public Button selectButton;
 
         public TokenAccount TokenAccount;
         private Nft.Nft _nft;
         private SimpleScreen _parentScreen;
         private Texture2D _texture;
+        
+        private WalletScreen _walletScreen;
+
+        public Nft.Nft Nft => _nft;
 
         private void Awake()
         {
@@ -36,7 +42,8 @@ namespace Solana.Unity.SDK.Example
 
         private void Start()
         {
-            transferButton.onClick.AddListener(TransferAccount);
+            //transferButton.onClick.AddListener(TransferAccount);
+            selectButton.onClick.AddListener(SelectNft);
         }
 
         public async UniTask InitializeData(TokenAccount tokenAccount, SimpleScreen screen, Solana.Unity.SDK.Nft.Nft nftData = null)
@@ -100,6 +107,19 @@ namespace Solana.Unity.SDK.Example
             {
                 _parentScreen.manager.ShowScreen(_parentScreen, "transfer_screen",  
                     Tuple.Create(TokenAccount, pub_txt.text, _texture));
+            }
+        }
+
+        public void SetWalletScreen(WalletScreen walletScreen)
+        {
+            _walletScreen = walletScreen;
+        }
+        
+        public void SelectNft()
+        {
+            if (_nft != null && _walletScreen != null)
+            {
+                _walletScreen.InvokeOnSelectedToken(_nft);
             }
         }
 

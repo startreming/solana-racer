@@ -140,6 +140,7 @@ namespace Race
             {
                 _raceStarted = false;
                 leaderBoard.SetActive(true);
+                currentSpeed.text = "0 km/h";
             }
             
             var racerUI = Instantiate(racerLeaderBoardUIPrefab, racersLeaderBoardContainer);

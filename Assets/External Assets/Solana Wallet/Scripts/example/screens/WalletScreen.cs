@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using TMPro;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 using codebase.utility;
 using Cysharp.Threading.Tasks;
 using Solana.Unity.Extensions;
+using Solana.Unity.Rpc.Models;
 using Solana.Unity.Rpc.Types;
 
 // ReSharper disable once CheckNamespace
@@ -40,6 +42,8 @@ namespace Solana.Unity.SDK.Example
         private Transform tokenContainer;
 
         public SimpleScreenManager parentManager;
+        public event Action<List<TokenItem>> OnTokensLoaded = tokens => {};
+        public event Action<Nft.Nft> OnSelectedNft = token => {};
 
         private CancellationTokenSource _stopTask;
         private List<TokenItem> _instantiatedTokens = new();
@@ -195,6 +199,7 @@ namespace Solana.Unity.SDK.Example
                         loadTask.ContinueWith(nft =>
                         {
                             TokenItem tkInstance = tk.GetComponent<TokenItem>();
+                            tkInstance.SetWalletScreen(this);
                             _instantiatedTokens.Add(tkInstance);
                             tk.SetActive(true);
                             if (tkInstance)
@@ -207,6 +212,13 @@ namespace Solana.Unity.SDK.Example
             }
             await UniTask.WhenAll(loadingTasks);
             _isLoadingTokens = false;
+            
+            OnTokensLoaded?.Invoke(_instantiatedTokens);
+        }
+
+        public void InvokeOnSelectedToken(Nft.Nft nft)
+        {
+            OnSelectedNft?.Invoke(nft);
         }
         
         public static async UniTask<TokenMintResolver> GetTokenMintResolver()
