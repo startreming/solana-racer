@@ -10,6 +10,7 @@ using Cysharp.Threading.Tasks;
 using Solana.Unity.Extensions;
 using Solana.Unity.Rpc.Models;
 using Solana.Unity.Rpc.Types;
+using UnityEngine.SceneManagement;
 
 // ReSharper disable once CheckNamespace
 
@@ -35,6 +36,8 @@ namespace Solana.Unity.SDK.Example
         private Button saveMnemonicsBtn;
         [SerializeField]
         private Button savePrivateKeyBtn;
+        [SerializeField] 
+        private Button beginRaceBtn;
         
         [SerializeField]
         private GameObject tokenItem;
@@ -42,7 +45,6 @@ namespace Solana.Unity.SDK.Example
         private Transform tokenContainer;
 
         public SimpleScreenManager parentManager;
-        public event Action<List<TokenItem>> OnTokensLoaded = tokens => {};
         public event Action<Nft.Nft> OnSelectedNft = token => {};
 
         private CancellationTokenSource _stopTask;
@@ -52,6 +54,9 @@ namespace Solana.Unity.SDK.Example
 
         public void Start()
         {
+            beginRaceBtn.onClick.AddListener(() => { SceneManager.LoadScene("Track1"); });
+            beginRaceBtn.gameObject.SetActive(false);
+            
             refreshBtn.onClick.AddListener(RefreshWallet);
 
             sendBtn.onClick.AddListener(() =>
@@ -212,13 +217,12 @@ namespace Solana.Unity.SDK.Example
             }
             await UniTask.WhenAll(loadingTasks);
             _isLoadingTokens = false;
-            
-            OnTokensLoaded?.Invoke(_instantiatedTokens);
         }
 
         public void InvokeOnSelectedToken(Nft.Nft nft)
         {
             OnSelectedNft?.Invoke(nft);
+            beginRaceBtn.gameObject.SetActive(true);
         }
         
         public static async UniTask<TokenMintResolver> GetTokenMintResolver()

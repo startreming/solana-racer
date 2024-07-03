@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Solana.Unity.SDK.Example;
 using Solana.Unity.SDK.Nft;
 using UnityEngine;
@@ -18,6 +16,7 @@ public class NftManager : MonoBehaviour
 
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
         walletScreen.OnSelectedNft += SaveNft;
     }
 
