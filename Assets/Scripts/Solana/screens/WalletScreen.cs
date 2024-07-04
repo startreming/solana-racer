@@ -2,50 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
 using codebase.utility;
 using Cysharp.Threading.Tasks;
 using Solana.Unity.Extensions;
-using Solana.Unity.Rpc.Models;
 using Solana.Unity.Rpc.Types;
+using Solana.Unity.SDK;
+using Solana.Unity.SDK.Example;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-// ReSharper disable once CheckNamespace
-
-namespace Solana.Unity.SDK.Example
+namespace Solana.screens
 {
     public class WalletScreen : SimpleScreen
     {
-        [SerializeField]
-        private TextMeshProUGUI lamports;
-        [SerializeField]
-        private Button refreshBtn;
-        [SerializeField]
-        private Button sendBtn;
-        [SerializeField]
-        private Button signBtn;
-        [SerializeField]
-        private Button receiveBtn;
-        [SerializeField]
-        private Button swapBtn;
-        [SerializeField]
-        private Button logoutBtn;
-        [SerializeField]
-        private Button saveMnemonicsBtn;
-        [SerializeField]
-        private Button savePrivateKeyBtn;
-        [SerializeField] 
-        private Button beginRaceBtn;
+        [SerializeField] private TextMeshProUGUI lamports;
+        [SerializeField] private Button refreshBtn;
+        [SerializeField] private Button logoutBtn;
+        [SerializeField] private Button beginRaceBtn;
         
-        [SerializeField]
-        private GameObject tokenItem;
-        [SerializeField]
-        private Transform tokenContainer;
-
-        public SimpleScreenManager parentManager;
-        public event Action<Nft.Nft> OnSelectedNft = token => {};
+        [SerializeField] private GameObject tokenItem;
+        [SerializeField] private Transform tokenContainer;
+        
+        public event Action<Unity.SDK.Nft.Nft> OnSelectedNft = token => {};
 
         private CancellationTokenSource _stopTask;
         private List<TokenItem> _instantiatedTokens = new();
@@ -54,55 +34,16 @@ namespace Solana.Unity.SDK.Example
 
         public void Start()
         {
-            beginRaceBtn.onClick.AddListener(() => { SceneManager.LoadScene("Track1"); });
             beginRaceBtn.gameObject.SetActive(false);
-            
             refreshBtn.onClick.AddListener(RefreshWallet);
-
-            sendBtn.onClick.AddListener(() =>
-            {
-                TransitionToTransfer();
-            });
             
-            signBtn.onClick.AddListener(() =>
-            {
-                manager.ShowScreen(this, "sign_screen");
-            });
-
-            receiveBtn.onClick.AddListener(() =>
-            {
-                manager.ShowScreen(this, "receive_screen");
-            });
-            
-            swapBtn.onClick.AddListener(() =>
-            {
-                manager.ShowScreen(this, "swap_screen_ag");
-            });
-
             logoutBtn.onClick.AddListener(() =>
             {
                 Web3.Instance.Logout();
-                manager.ShowScreen(this, "login_screen");
-                if(parentManager != null)
-                    parentManager.ShowScreen(this, "[Connect_Wallet_Screen]");
+                gameObject.SetActive(false);
             });
-            
-            savePrivateKeyBtn.onClick.AddListener(SavePrivateKeyOnClick);
-            saveMnemonicsBtn.onClick.AddListener(SaveMnemonicsOnClick);
 
             _stopTask = new CancellationTokenSource();
-            
-            Web3.OnWalletChangeState += OnWalletChangeState;
-        }
-
-        private void OnWalletChangeState()
-        {
-            if(Web3.Wallet == null) return;
-            swapBtn.transition = Web3.Wallet.RpcCluster == RpcCluster.MainNet ?
-                Selectable.Transition.Animation
-                : Selectable.Transition.ColorTint;
-            swapBtn.interactable = Web3.Wallet.RpcCluster == RpcCluster.MainNet;
-
         }
 
         private void RefreshWallet()
@@ -114,10 +55,6 @@ namespace Solana.Unity.SDK.Example
         private void OnEnable()
         {
             Loading.StopLoading();
-            var hasPrivateKey = !string.IsNullOrEmpty(Web3.Instance.WalletBase?.Account.PrivateKey);
-            savePrivateKeyBtn.gameObject.SetActive(hasPrivateKey);
-            var hasMnemonics = !string.IsNullOrEmpty(Web3.Instance.WalletBase?.Mnemonic?.ToString());
-            saveMnemonicsBtn.gameObject.SetActive(hasMnemonics);
             Web3.OnBalanceChange += OnBalanceChange;
         }
 
@@ -134,28 +71,7 @@ namespace Solana.Unity.SDK.Example
         {
             Web3.OnBalanceChange -= OnBalanceChange;
         }
-
-        private void SavePrivateKeyOnClick()
-        {
-            if (!gameObject.activeSelf) return;
-            if (string.IsNullOrEmpty(Web3.Instance.WalletBase.Account.PrivateKey?.ToString())) return;
-            Clipboard.Copy(Web3.Instance.WalletBase.Account.PrivateKey.ToString());
-            gameObject.GetComponent<Toast>()?.ShowToast("Private Key copied to clipboard", 3);
-        }
         
-        private void SaveMnemonicsOnClick()
-        {
-            if (!gameObject.activeSelf) return;
-            if (string.IsNullOrEmpty(Web3.Instance.WalletBase.Mnemonic?.ToString())) return;
-            Clipboard.Copy(Web3.Instance.WalletBase.Mnemonic.ToString());
-            gameObject.GetComponent<Toast>()?.ShowToast("Mnemonics copied to clipboard", 3);
-        }
-
-        private void TransitionToTransfer(object data = null)
-        {
-            manager.ShowScreen(this, "transfer_screen", data);
-        }
-
         private async UniTask GetOwnedTokenAccounts()
         {
             if(_isLoadingTokens) return;
@@ -198,7 +114,7 @@ namespace Solana.Unity.SDK.Example
                         var tk = Instantiate(tokenItem, tokenContainer, true);
                         tk.transform.localScale = Vector3.one;
 
-                        var loadTask = Nft.Nft.TryGetNftData(item.Account.Data.Parsed.Info.Mint,
+                        var loadTask = Unity.SDK.Nft.Nft.TryGetNftData(item.Account.Data.Parsed.Info.Mint,
                             Web3.Instance.WalletBase.ActiveRpcClient).AsUniTask();
                         loadingTasks.Add(loadTask);
                         loadTask.ContinueWith(nft =>
@@ -219,7 +135,7 @@ namespace Solana.Unity.SDK.Example
             _isLoadingTokens = false;
         }
 
-        public void InvokeOnSelectedToken(Nft.Nft nft)
+        public void InvokeOnSelectedToken(Unity.SDK.Nft.Nft nft)
         {
             OnSelectedNft?.Invoke(nft);
             beginRaceBtn.gameObject.SetActive(true);
@@ -245,13 +161,6 @@ namespace Solana.Unity.SDK.Example
             base.HideScreen();
             gameObject.SetActive(false);
         }
-        
-        public void OnClose()
-        {
-            var wallet = GameObject.Find("wallet");
-            wallet.SetActive(false);
-        }
-
 
         private void OnDestroy()
         {
