@@ -27,12 +27,14 @@ public class UIOverlayFollowCamera : MonoBehaviour
         if (controller.IsPlayer)
         {
             var nftManager = FindObjectOfType<NftManager>();
-            if (nftManager == null)
+            if (nftManager == null || nftManager.Nft == null)
             {
+                _canvasGroup.alpha = 0;
                 _canFollow = false;
             }
             else
             {
+                _canvasGroup.alpha = 1;
                 profilePictureImage.texture = nftManager.NftTexture;
             }
         }

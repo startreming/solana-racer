@@ -13,7 +13,7 @@ public class NftManager : MonoBehaviour
     [SerializeField] private RawImage logo;
     
     private Nft _nft;
-    [SerializeField] private Texture2D _nftTexture;
+    private Texture2D _nftTexture;
 
     public Nft Nft => _nft;
     public Texture2D NftTexture => _nftTexture;
