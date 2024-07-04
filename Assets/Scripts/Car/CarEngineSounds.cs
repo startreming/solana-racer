@@ -54,7 +54,7 @@ namespace Car
                 engineSource.volume = CalculateVolume(data, speedKPH);
                 if (dirtSource != null)
                 {
-                    dirtSource.volume = engineSource.volume;
+                    dirtSource.volume = Mathf.Clamp(engineSource.volume, 0, 0.5f);
                 }
 
                 if (dirtSource != null && !dirtSource.isPlaying)
@@ -68,12 +68,12 @@ namespace Car
             }
         }
         
-        float CalculateVolume(EngineSoundData data, float speedKPH)
+        float CalculateVolume(EngineSoundData data, float speedKPH, float maxVolume = 1f)
         {
             var transitionThreshold = 5;
             if (speedKPH >= data.MinRPM && speedKPH <= data.MaxRPM)
             {
-                return 1f;
+                return maxVolume;
             }
             
             if (speedKPH < data.MinRPM)
@@ -81,7 +81,7 @@ namespace Car
                 float minTransitionRange = Mathf.Max(0, data.MinRPM - transitionThreshold); 
                 if (speedKPH >= minTransitionRange)
                 {
-                    return Mathf.Lerp(0, 1, (speedKPH - minTransitionRange) / (data.MinRPM - minTransitionRange));
+                    return Mathf.Lerp(0, maxVolume, (speedKPH - minTransitionRange) / (data.MinRPM - minTransitionRange));
                 }
 
                 return 0f;
@@ -92,7 +92,7 @@ namespace Car
                 float maxTransitionRange = data.MaxRPM + transitionThreshold; 
                 if (speedKPH <= maxTransitionRange)
                 {
-                    return Mathf.Lerp(1, 0, (speedKPH - data.MaxRPM) / (maxTransitionRange - data.MaxRPM));
+                    return Mathf.Lerp(maxVolume, 0, (speedKPH - data.MaxRPM) / (maxTransitionRange - data.MaxRPM));
                 }
 
                 return 0f;
