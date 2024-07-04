@@ -1,3 +1,4 @@
+using System;
 using Solana.Unity.SDK.Example;
 using Solana.Unity.SDK.Nft;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 
 public class NftManager : MonoBehaviour
 {
+    public static NftManager Instance;
+    
     [SerializeField] private WalletScreen walletScreen;
     [SerializeField] private RawImage logo;
     
@@ -13,6 +16,12 @@ public class NftManager : MonoBehaviour
 
     public Nft Nft => _nft;
     public Texture2D NftTexture => _nftTexture;
+
+    private void Awake()
+    {
+        if (Instance != null) Destroy(this);
+        Instance = this;
+    }
 
     private void Start()
     {
