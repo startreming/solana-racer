@@ -1,5 +1,5 @@
 using System;
-using Solana.screens;
+using Solana;
 using Solana.Unity.SDK.Example;
 using Solana.Unity.SDK.Nft;
 using UnityEngine;
@@ -13,7 +13,7 @@ public class NftManager : MonoBehaviour
     [SerializeField] private RawImage logo;
     
     private Nft _nft;
-    private Texture2D _nftTexture;
+    [SerializeField] private Texture2D _nftTexture;
 
     public Nft Nft => _nft;
     public Texture2D NftTexture => _nftTexture;
@@ -27,7 +27,7 @@ public class NftManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        walletScreen.OnSelectedNft += SaveNft;
+        if (walletScreen != null) walletScreen.OnSelectedNft += SaveNft;
     }
 
     private void SaveNft(Nft nft)

@@ -1,21 +1,16 @@
-using System;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Solana.screens;
 using Solana.Unity.Extensions.Models.TokenMint;
 using Solana.Unity.Rpc.Models;
 using Solana.Unity.SDK.Utility;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using WebSocketSharp;
 
-// ReSharper disable once CheckNamespace
-
-namespace Solana.Unity.SDK.Example
+namespace Solana
 {
     public class TokenItem : MonoBehaviour
     {
@@ -28,13 +23,12 @@ namespace Solana.Unity.SDK.Example
         public Button selectButton;
 
         public TokenAccount TokenAccount;
-        private Nft.Nft _nft;
-        private SimpleScreen _parentScreen;
+        private Unity.SDK.Nft.Nft _nft;
         private Texture2D _texture;
         
         private WalletScreen _walletScreen;
 
-        public Nft.Nft Nft => _nft;
+        public Unity.SDK.Nft.Nft Nft => _nft;
 
         private void Awake()
         {
@@ -47,9 +41,8 @@ namespace Solana.Unity.SDK.Example
             selectButton.onClick.AddListener(SelectNft);
         }
 
-        public async UniTask InitializeData(TokenAccount tokenAccount, SimpleScreen screen, Solana.Unity.SDK.Nft.Nft nftData = null)
+        public async UniTask InitializeData(TokenAccount tokenAccount, Solana.Unity.SDK.Nft.Nft nftData = null)
         {
-            _parentScreen = screen;
             TokenAccount = tokenAccount;
             if (nftData != null && ulong.Parse(tokenAccount.Account.Data.Parsed.Info.TokenAmount.Amount) == 1)
             {
@@ -96,19 +89,6 @@ namespace Solana.Unity.SDK.Example
             _texture = FileLoader.Resize(texture, 75, 75);
             FileLoader.SaveToPersistentDataPath(Path.Combine(Application.persistentDataPath, $"{tokenMint}.png"), _texture);
             logo.texture = _texture;
-        }
-
-        public void TransferAccount()
-        {
-            if (_nft != null)
-            {
-                _parentScreen.manager.ShowScreen(_parentScreen, "transfer_screen", _nft);
-            }
-            else
-            {
-                _parentScreen.manager.ShowScreen(_parentScreen, "transfer_screen",  
-                    Tuple.Create(TokenAccount, pub_txt.text, _texture));
-            }
         }
 
         public void SetWalletScreen(WalletScreen walletScreen)

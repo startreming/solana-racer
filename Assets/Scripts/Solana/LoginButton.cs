@@ -1,13 +1,12 @@
 using Solana.Unity.SDK;
-using Solana.Unity.SDK.Example;
 using Solana.Unity.Wallet;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Solana.screens
+namespace Solana
 {
-    public class LoginButton : SimpleScreen
+    public class LoginButton : MonoBehaviour
     {
         [SerializeField] private WalletScreen walletScreen;
         [SerializeField] private TextMeshProUGUI messageTxt;
@@ -31,6 +30,7 @@ namespace Solana.screens
         private async void LoginCheckerWalletAdapter()
         {
             if(Web3.Instance == null) return;
+            Loading.StartLoading();
             var account = await Web3.Instance.LoginWalletAdapter();
             messageTxt.text = "";
             CheckAccount(account);

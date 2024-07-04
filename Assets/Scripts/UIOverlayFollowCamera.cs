@@ -1,9 +1,11 @@
 ﻿using Car;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIOverlayFollowCamera : MonoBehaviour
 {
+    [SerializeField] private RawImage profilePictureImage;
     [SerializeField] private RectTransform uiElement;
     [SerializeField] private Transform followObject;
     [SerializeField] private Vector3 offset;
@@ -21,6 +23,19 @@ public class UIOverlayFollowCamera : MonoBehaviour
         if (_canvasGroup == null)
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
         FollowCamera(followObject, mainCamera);
+
+        if (controller.IsPlayer)
+        {
+            var nftManager = FindObjectOfType<NftManager>();
+            if (nftManager == null)
+            {
+                _canFollow = false;
+            }
+            else
+            {
+                profilePictureImage.texture = nftManager.NftTexture;
+            }
+        }
     }
 
     private void Update()
@@ -45,11 +60,11 @@ public class UIOverlayFollowCamera : MonoBehaviour
             _canvasGroup.alpha = 1;
         }
 
-        if (controller == CarController.PlayerController && controller.CanMove)
+        /*if (controller == CarController.PlayerController && controller.CanMove)
         {
             _canvasGroup.alpha = 0;
             return;
-        }
+        }*/
         
         
         var distance = Vector3.Distance(controller.Model.transform.position,

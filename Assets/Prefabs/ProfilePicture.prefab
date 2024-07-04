@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52fd665e585a4b7a8ac87bd32dba587e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profilePictureImage: {fileID: 2685577665345740430}
   uiElement: {fileID: 5945199782218790533}
   followObject: {fileID: 0}
   offset: {x: 0, y: 1.5, z: 0}

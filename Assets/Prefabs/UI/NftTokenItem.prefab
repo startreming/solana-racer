@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 6269036519149151329}
   - component: {fileID: 4931489023722635100}
   m_Layer: 5
-  m_Name: token_item
+  m_Name: NftTokenItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

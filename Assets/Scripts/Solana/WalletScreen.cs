@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using codebase.utility;
 using Cysharp.Threading.Tasks;
 using Solana.Unity.Extensions;
 using Solana.Unity.Rpc.Types;
@@ -10,12 +9,11 @@ using Solana.Unity.SDK;
 using Solana.Unity.SDK.Example;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Solana.screens
+namespace Solana
 {
-    public class WalletScreen : SimpleScreen
+    public class WalletScreen : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI lamports;
         [SerializeField] private Button refreshBtn;
@@ -54,7 +52,7 @@ namespace Solana.screens
 
         private void OnEnable()
         {
-            Loading.StopLoading();
+            //Loading.StopLoading();
             Web3.OnBalanceChange += OnBalanceChange;
         }
 
@@ -125,7 +123,7 @@ namespace Solana.screens
                             tk.SetActive(true);
                             if (tkInstance)
                             {
-                                tkInstance.InitializeData(item, this, nft).Forget();
+                                tkInstance.InitializeData(item, nft).Forget();
                             }
                         }).Forget();
                     }
@@ -133,6 +131,7 @@ namespace Solana.screens
             }
             await UniTask.WhenAll(loadingTasks);
             _isLoadingTokens = false;
+            Loading.StopLoading();
         }
 
         public void InvokeOnSelectedToken(Unity.SDK.Nft.Nft nft)
@@ -147,19 +146,6 @@ namespace Solana.screens
             var tokenResolver = await TokenMintResolver.LoadAsync();
             if(tokenResolver != null) _tokenResolver = tokenResolver;
             return _tokenResolver;
-        }
-
-        public override void ShowScreen(object data = null)
-        {
-            base.ShowScreen();
-            gameObject.SetActive(true);
-            GetOwnedTokenAccounts().Forget();
-        }
-
-        public override void HideScreen()
-        {
-            base.HideScreen();
-            gameObject.SetActive(false);
         }
 
         private void OnDestroy()
