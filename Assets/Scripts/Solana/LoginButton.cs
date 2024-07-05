@@ -1,6 +1,7 @@
 using Solana.Unity.SDK;
 using Solana.Unity.Wallet;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 

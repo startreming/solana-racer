@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.5238657, g: 0.5617042, b: 0.47704506, a: 1}
+  m_IndirectSpecularColor: {r: 0.7508621, g: 0.77462274, b: 0.72003055, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4153,6 +4153,11 @@ PrefabInstance:
       propertyPath: kartModel
       value: 
       objectReference: {fileID: 1881622910}
+    - target: {fileID: 7967494822081448458, guid: fac7969a94ec6e548800cb19aaba6e9b,
+        type: 3}
+      propertyPath: profilePicture
+      value: 
+      objectReference: {fileID: 2800000, guid: df9fc6f22e22b814fbabb582ac22fd4c, type: 3}
     m_RemovedComponents:
     - {fileID: 7534714350363714392, guid: fac7969a94ec6e548800cb19aaba6e9b, type: 3}
     m_RemovedGameObjects:
@@ -24804,6 +24809,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3895691640141488637, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
+        type: 3}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5842219539264983749, guid: 2b974a5469051fe41a7bcceb1e34b7c2,
         type: 3}
       propertyPath: m_CollisionDetection
@@ -25818,6 +25828,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1516703233}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1519864892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1519864894}
+  - component: {fileID: 1519864893}
+  m_Layer: 0
+  m_Name: PauseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1519864893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519864892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5740edc8be9b6c948938e6fee8887ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1519864894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519864892}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1522646442
 GameObject:
   m_ObjectHideFlags: 0
@@ -35919,6 +35973,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -196.711
       objectReference: {fileID: 0}
+    - target: {fileID: 7967494822081448458, guid: fac7969a94ec6e548800cb19aaba6e9b,
+        type: 3}
+      propertyPath: profilePicture
+      value: 
+      objectReference: {fileID: 2800000, guid: ceb16c8cb0a4def4e88391a49bfda0c8, type: 3}
     m_RemovedComponents:
     - {fileID: 7534714350363714392, guid: fac7969a94ec6e548800cb19aaba6e9b, type: 3}
     m_RemovedGameObjects: []
@@ -37173,6 +37232,21 @@ PrefabInstance:
       propertyPath: carController
       value: 
       objectReference: {fileID: 951325882}
+    - target: {fileID: 4695448782438368156, guid: acdb63fd36251a44a93b6bec9f63977a,
+        type: 3}
+      propertyPath: pauseManager
+      value: 
+      objectReference: {fileID: 1519864893}
+    - target: {fileID: 6640448113687081739, guid: acdb63fd36251a44a93b6bec9f63977a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7118821502777366860, guid: acdb63fd36251a44a93b6bec9f63977a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1519864893}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37193,4 +37267,5 @@ SceneRoots:
   - {fileID: 1844378958}
   - {fileID: 62762978}
   - {fileID: 6027899792042030219}
+  - {fileID: 1519864894}
   - {fileID: 497066122}

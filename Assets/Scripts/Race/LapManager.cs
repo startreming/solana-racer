@@ -98,7 +98,6 @@ namespace Race
 
             if (_racers.TrueForAll(r => r.Finished))
             {
-                Debug.Log("All players finished!!!");
                 OnFinishedRace?.Invoke(_racers);
             }
         }
@@ -123,9 +122,7 @@ namespace Race
             if (racer.Lap == maxLaps)
             {
                 var time = TimeSpan.FromSeconds(Time.time - _raceStartTime);
-                var timeElapsed = time.ToString(@"mm\:ss\:fff");
                 racer.TotalRaceTime = time;
-                Debug.Log($"Racer {racer.Represents.name} finished in {timeElapsed}");
                 
                 //UpdateScoreboard(playerName, timeElapsed);
 

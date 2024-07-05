@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Solana
+namespace UI
 {
     public class Loading : MonoBehaviour
     {

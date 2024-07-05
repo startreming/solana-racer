@@ -8,6 +8,7 @@ using Solana.Unity.Rpc.Types;
 using Solana.Unity.SDK;
 using Solana.Unity.SDK.Example;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 

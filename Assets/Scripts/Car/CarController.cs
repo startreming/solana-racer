@@ -2,6 +2,7 @@
 using DG.Tweening;
 using Domain;
 using Effects;
+using Solana;
 using UnityEngine;
 
 namespace Car
@@ -22,6 +23,7 @@ namespace Car
         public float CurrentSpeed => _currentSpeed;
         public bool IsDrifting => _isDrifting;
         public VehicleStats Stats => stats;
+        public Texture2D ProfilePicture => profilePicture;
 
         [SerializeField] private Rigidbody rigidbody;
         [SerializeField] private Transform kart;
@@ -38,6 +40,7 @@ namespace Car
         [SerializeField] private CarModel kartModel;
         [SerializeField] private VehicleStats stats;
         [SerializeField] private float vehicleY;
+        [SerializeField] private Texture2D profilePicture;
 
         private bool _canMove = false;
         private Vector3 _localVelocity;
@@ -72,6 +75,16 @@ namespace Car
             {
                 PlayerGameObject = transform.parent.gameObject;
                 PlayerController = this;
+                
+                var nftManager = FindObjectOfType<NftManager>();
+                if (nftManager == null || nftManager.NftTexture == null)
+                {
+                    profilePicture = null;
+                }
+                else
+                {
+                    profilePicture = nftManager.NftTexture;
+                }
             }
         }
 

@@ -1,14 +1,20 @@
-using Solana;
-using UnityEngine;
+using UI;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public static class SceneLoader
 {
-    [SerializeField] private string sceneName;
-    
-    public void LoadScene()
+    private const string gameSceneName = "Track1";
+    private const string menuSceneName = "WalletSolana";
+
+    public static void LoadGameScene()
     {
         Loading.StartLoading();
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(gameSceneName);
+    }
+
+    public static void LoadMenuScene()
+    {
+        Loading.StartLoading();
+        SceneManager.LoadScene(menuSceneName);
     }
 }

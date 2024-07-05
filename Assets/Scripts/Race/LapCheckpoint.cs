@@ -13,7 +13,7 @@ namespace Race
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                Debug.Log($"Checkpoint #{progress} Passed by {other.transform.parent.name}");
+                //Debug.Log($"Checkpoint #{progress} Passed by {other.transform.parent.name}");
 
                 lapManager.VerifyPass(other.transform.parent.gameObject, this);
             }

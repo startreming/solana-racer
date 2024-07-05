@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Car;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,8 @@ namespace Race
         [SerializeField] private LapManager lapManager;
         [SerializeField] private RaceManager raceManager;
         [SerializeField] private CarController carController;
-        
+        [SerializeField] private PauseMenu pauseMenu;
+
         [SerializeField] private TMP_Text currentLap;
         [SerializeField] private TMP_Text currentPlace;
         [SerializeField] private TMP_Text totalLaps;
@@ -42,7 +44,7 @@ namespace Race
             raceManager.OnStartedRace += StartRace;
             lapManager.OnFinishedRace += FinishRace;
             lapManager.OnRacerFinishedRace += RacerFinishRace;
-            
+
             totalLaps.text = lapManager.Laps.ToString();
             timerText.text = raceManager.WaitToStart.ToString();
             currentSpeed.text = "0 km/h";
@@ -141,6 +143,7 @@ namespace Race
                 _raceStarted = false;
                 leaderBoard.SetActive(true);
                 currentSpeed.text = "0 km/h";
+                pauseMenu.gameObject.SetActive(false);
             }
             
             var racerUI = Instantiate(racerLeaderBoardUIPrefab, racersLeaderBoardContainer);
