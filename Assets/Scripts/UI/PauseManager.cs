@@ -15,7 +15,13 @@ namespace UI
         {
             _canPause = canPause;
         }
-        
+
+        private void Start()
+        {
+            _isPaused = false;
+            AudioListener.pause = false;
+        }
+
         private void Update()
         {
             if (!_canPause) return;
@@ -37,6 +43,7 @@ namespace UI
             Time.timeScale = 0f;
             _isPaused = true;
             OnGamePaused?.Invoke(_isPaused);
+            AudioListener.pause = true;
         }
     
         public void ResumeGame()
@@ -44,6 +51,7 @@ namespace UI
             Time.timeScale = 1f;
             _isPaused = false;
             OnGamePaused?.Invoke(_isPaused);
+            AudioListener.pause = false;
         }
     
         public void GoToMainMenu()
