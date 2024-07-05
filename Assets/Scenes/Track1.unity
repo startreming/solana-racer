@@ -37229,6 +37229,11 @@ PrefabInstance:
       objectReference: {fileID: 1871336439}
     - target: {fileID: 3733888595339119608, guid: acdb63fd36251a44a93b6bec9f63977a,
         type: 3}
+      propertyPath: pauseManager
+      value: 
+      objectReference: {fileID: 1519864893}
+    - target: {fileID: 3733888595339119608, guid: acdb63fd36251a44a93b6bec9f63977a,
+        type: 3}
       propertyPath: carController
       value: 
       objectReference: {fileID: 951325882}

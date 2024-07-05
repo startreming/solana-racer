@@ -13,6 +13,7 @@ namespace Race
         [SerializeField] private LapManager lapManager;
         [SerializeField] private RaceManager raceManager;
         [SerializeField] private CarController carController;
+        [SerializeField] private PauseManager pauseManager;
         [SerializeField] private PauseMenu pauseMenu;
 
         [SerializeField] private TMP_Text currentLap;
@@ -144,6 +145,7 @@ namespace Race
                 leaderBoard.SetActive(true);
                 currentSpeed.text = "0 km/h";
                 pauseMenu.gameObject.SetActive(false);
+                pauseManager.SetCanPause(false);
             }
             
             var racerUI = Instantiate(racerLeaderBoardUIPrefab, racersLeaderBoardContainer);

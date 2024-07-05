@@ -286,26 +286,26 @@ MonoBehaviour:
   sounds:
   - MinRPM: 0
     MaxRPM: 0.5
-    EngineClip: {fileID: 8300000, guid: 592671ad38f79ae419cb9b052faa542a, type: 3}
+    EngineClip: {fileID: 8300000, guid: 3346ec91d23a6594ca5311609cdac8c7, type: 3}
     DirtClip: {fileID: 0}
     MinPitch: 0.9
     MaxPitch: 1.2
   - MinRPM: 1
     MaxRPM: 15
-    EngineClip: {fileID: 8300000, guid: 51686b2d1bfff8b4abcf02780ee2b3a8, type: 3}
-    DirtClip: {fileID: 8300000, guid: 3b6342651128e154099e306795be99c6, type: 3}
+    EngineClip: {fileID: 8300000, guid: 3a49596a8f6b7e347a9d639a5eaf5ee5, type: 3}
+    DirtClip: {fileID: 8300000, guid: 28e17bf5608357f40889ab5257524202, type: 3}
     MinPitch: 0.9
     MaxPitch: 1.2
   - MinRPM: 15
     MaxRPM: 60
-    EngineClip: {fileID: 8300000, guid: 5983ea4a2c6208e4baa37f775aee7136, type: 3}
-    DirtClip: {fileID: 8300000, guid: a6a86ff4e5e6d6d49ae97204ce56846e, type: 3}
+    EngineClip: {fileID: 8300000, guid: 4cb1da1ec65ece94399f22ed23e3aaf7, type: 3}
+    DirtClip: {fileID: 8300000, guid: a8c68d40578bf5648bd2fbf678b0725b, type: 3}
     MinPitch: 0.9
     MaxPitch: 1.2
   - MinRPM: 60
     MaxRPM: 200
-    EngineClip: {fileID: 8300000, guid: 36bb6df8d7810e84fb522d29c7a14e7c, type: 3}
-    DirtClip: {fileID: 8300000, guid: edea6982c1032d44abad0eec4321ce88, type: 3}
+    EngineClip: {fileID: 8300000, guid: df3b86917585156408d768bb74cd0cf0, type: 3}
+    DirtClip: {fileID: 8300000, guid: 6e55d77eb023acd469f86fa0afb52d61, type: 3}
     MinPitch: 0.9
     MaxPitch: 1.2
 --- !u!1 &2958632813167486275
@@ -461,6 +461,7 @@ MonoBehaviour:
     tractionStat: 10
     miniNitroStat: 10
   vehicleY: -0.25
+  profilePicture: {fileID: 0}
   _interpolation: 1
 --- !u!114 &1169081499916715966
 MonoBehaviour:

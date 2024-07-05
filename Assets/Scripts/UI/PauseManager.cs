@@ -1,4 +1,5 @@
 using System;
+using Solana;
 using UnityEngine;
 
 namespace UI
@@ -6,11 +7,18 @@ namespace UI
     public class PauseManager : MonoBehaviour
     {
         private bool _isPaused = false;
+        private bool _canPause = true;
 
         public event Action<bool> OnGamePaused = isPaused => { };
 
+        public void SetCanPause(bool canPause)
+        {
+            _canPause = canPause;
+        }
+        
         private void Update()
         {
+            if (!_canPause) return;
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (_isPaused)
@@ -41,6 +49,11 @@ namespace UI
         public void GoToMainMenu()
         {
             Time.timeScale = 1f;
+            var nftManager = FindObjectOfType<NftManager>();
+            if (nftManager != null)
+            {
+                Destroy(nftManager.gameObject);
+            }
             SceneLoader.LoadMenuScene();
         }
     }
