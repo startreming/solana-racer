@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Car;
 using UnityEngine;
 
-namespace Car
+namespace Sounds
 {
     public class CarEngineSounds : MonoBehaviour
     {
         [SerializeField] private CarController controller;
         [SerializeField] private EngineSoundData[] sounds;
         private Dictionary<EngineSoundData, EngineSources> _engineSources = new Dictionary<EngineSoundData, EngineSources>();
+
+        private float _timeInAir = 0;
 
         private void Start()
         {
@@ -48,7 +51,25 @@ namespace Car
                 var engineSource = audioS.EngineSource;
                 var dirtSource = audioS.DirtSource;
                 float normalizedSpeed = (speedKPH - data.MinRPM) / (data.MaxRPM - data.MinRPM);
-                engineSource.pitch = Mathf.Lerp(data.MinPitch, data.MaxPitch, normalizedSpeed);
+                float finalPitch = Mathf.Lerp(data.MinPitch, data.MaxPitch, normalizedSpeed);
+                
+                if (!controller.Grounded)
+                {
+                    _timeInAir += Time.deltaTime;
+                    if (_timeInAir > 1f)
+                    {
+                        finalPitch = 1.3f;
+                    }
+                }
+                else
+                {
+                    _timeInAir = 0;
+                }
+                
+                if (!controller.CanMove)
+                    finalPitch = 1f;
+
+                engineSource.pitch = finalPitch;
 
                 // Calculate volume adjustment
                 engineSource.volume = CalculateVolume(data, speedKPH);
