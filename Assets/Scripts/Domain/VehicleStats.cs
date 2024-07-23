@@ -6,20 +6,12 @@ namespace Domain
     [Serializable]
     public class VehicleStats
     {
-        public int Speed => speedStat;
-        public int Acceleration => accelerationStat;
-        public int Weight => weightStat;
-        public int Handling => handlingStat;
-        public int Traction => tractionStat;
-        public int Nitro => miniNitroStat;
-        
         [SerializeField] [Range(0, 24)] private int speedStat;
         [SerializeField] [Range(0, 24)] private int accelerationStat;
         [SerializeField] [Range(0, 24)] private int weightStat;
         [SerializeField] [Range(0, 24)] private int handlingStat;
         [SerializeField] [Range(0, 24)] private int tractionStat;
         [SerializeField] [Range(0, 24)] private int miniNitroStat;
-
 
         public VehicleStats(VehicleStats initializer)
         {
@@ -35,7 +27,6 @@ namespace Domain
         {
             return LinearConversion(accelerationStat, 0.2f, 1.2f);
         }
-        
 
         public float GetMaxSpeed()
         {

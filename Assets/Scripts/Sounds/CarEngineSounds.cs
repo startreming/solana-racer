@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Car;
 using UnityEngine;
 
@@ -121,22 +120,5 @@ namespace Sounds
 
             return 0f;
         }
-    }
-
-    [Serializable]
-    public class EngineSoundData
-    {
-        public float MinRPM;
-        public float MaxRPM;
-        public AudioClip EngineClip;
-        public AudioClip DirtClip;
-        public float MinPitch = 0.9f;
-        public float MaxPitch = 1.3f;
-    }
-
-    public class EngineSources
-    {
-        public AudioSource EngineSource;
-        public AudioSource DirtSource;
     }
 }

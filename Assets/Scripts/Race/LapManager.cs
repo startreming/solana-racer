@@ -108,24 +108,19 @@ namespace Race
             {
                 racer.Progress = 0;
                 racer.Lap += 1;
-                //Debug.Log($"Racer {racer.Represents} just advanced to lap {racer.Lap}!");
             }
 
             if (racer.Progress == lapCheckpoint.Progress - 1)
             {
                 racer.Progress = lapCheckpoint.Progress;
-                //Debug.Log($"Advanced racer {racer.Represents} to {racer.Progress}");
             }
             
             // Update all racers
-
             if (racer.Lap == maxLaps)
             {
                 var time = TimeSpan.FromSeconds(Time.time - _raceStartTime);
                 racer.TotalRaceTime = time;
                 
-                //UpdateScoreboard(playerName, timeElapsed);
-
                 var inputCreator = racer.Represents.GetComponent<InputCreator>();
                 inputCreator.Stop();
                 inputCreator.UnInitialize();
@@ -190,17 +185,5 @@ namespace Race
             _racers.Add(newRacer);
             return newRacer;
         }
-    }
-    
-    public class Racer
-    {
-        public GameObject Represents;
-        public int Progress;
-        public int Lap;
-        public int Place;
-        public int PlaceInverted;
-        public float RaceProgress;
-        public bool Finished;
-        public TimeSpan TotalRaceTime;
     }
 }

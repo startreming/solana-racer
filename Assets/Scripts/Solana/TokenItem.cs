@@ -14,8 +14,8 @@ namespace Solana
 {
     public class TokenItem : MonoBehaviour
     {
-        public TextMeshProUGUI pub_txt;
-        public TextMeshProUGUI amount_txt;
+        [SerializeField] private TextMeshProUGUI pub_txt;
+        [SerializeField] private TextMeshProUGUI amount_txt;
 
         public RawImage logo;
 
@@ -37,7 +37,6 @@ namespace Solana
 
         private void Start()
         {
-            //transferButton.onClick.AddListener(TransferAccount);
             selectButton.onClick.AddListener(SelectNft);
         }
 
@@ -95,18 +94,18 @@ namespace Solana
         {
             _walletScreen = walletScreen;
         }
-        
-        public void SelectNft()
+
+        public void UpdateAmount(string newAmount)
+        {
+            MainThreadDispatcher.Instance().Enqueue(() => { amount_txt.text = newAmount; });
+        }
+
+        private void SelectNft()
         {
             if (_nft != null && _walletScreen != null)
             {
                 _walletScreen.InvokeOnSelectedToken(_nft);
             }
-        }
-
-        public void UpdateAmount(string newAmount)
-        {
-            MainThreadDispatcher.Instance().Enqueue(() => { amount_txt.text = newAmount; });
         }
     }
 }

@@ -5,17 +5,6 @@ namespace Car
 {
     public class CarModel : MonoBehaviour
     {
-        public Transform[] BoostParticlePoints => boostParticles; 
-        public Transform[] DriftParticlePoints => driftParticles;
-        public Transform[] WheelParticlePoints => wheelParticles;
-        public Transform[] HoverParticlePoints => hoverParticles;
-
-        [Header("Particle Start Points")]
-        [SerializeField] private Transform[] driftParticles;
-        [SerializeField] private Transform[] boostParticles;
-        [SerializeField] private Transform[] wheelParticles;
-        [SerializeField] private Transform[] hoverParticles;
-
         [Header("Model Wheel Axle")]
         [SerializeField] private Transform frontWheels;
         [SerializeField] private Transform backWheels;
@@ -43,7 +32,7 @@ namespace Car
 
         
         // Tweeners
-        private float _bodyRoll, _bodyPitch, _frontWheelAngle, _headY;
+        private float _bodyRoll, _bodyPitch, _frontWheelAngle;
         private bool _drifting;
         private Tweener _tweenHopPosition;
         private Tweener _tweenHopScale;
@@ -58,9 +47,6 @@ namespace Car
         {
             var targetFrontWheelAngle = (horizontalSteer * maxSteeringAngle) / Mathf.Clamp(rigidbodyMagnitude*0.1f, 1f, 10f);
             _frontWheelAngle = Mathf.Lerp(_frontWheelAngle, targetFrontWheelAngle, 0.1f);
-            
-            //frontWheels.localEulerAngles = new Vector3(0, _frontWheelAngle, frontWheels.localEulerAngles.z);
-            //frontWheels.localEulerAngles += new Vector3(0, 0, rigidbodyMagnitude * wheelVelocity);
 
             foreach (var frontWheel in frontIndividualWheels)
             {
@@ -69,8 +55,6 @@ namespace Car
                 newEuler.z += rigidbodyMagnitude * wheelVelocity;
                 frontWheel.localEulerAngles = newEuler;
             }
-            
-            TurnPilot(horizontalSteer);
         }
 
         public virtual void SpinBackWheels(float rigidbodyMagnitude)
@@ -88,17 +72,6 @@ namespace Car
             transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, 
                 new Vector3(0, 90 + (horizontalSteer * extraBodyAngle), transform.localEulerAngles.z), .05f);
             
-        }
-
-        public virtual void TurnPilot(float horizontalSteer)
-        {
-            var targetY = horizontalSteer * 25f;
-            if (_drifting)
-            {
-                targetY = -targetY;
-            }
-            
-            _headY = Mathf.Lerp(_headY, targetY, 0.15f);
         }
 
         public virtual Vector3 ApplyToCoordinates(Axes axes, float value)
@@ -141,50 +114,10 @@ namespace Car
             kartChassis.localEulerAngles = targetVector;
         }
 
-        public virtual void Trick()
-        {
-            // Do a funny trick
-            _tweenTrick.Complete();
-            _tweenTrick = transform.parent.DOPunchRotation(new Vector3(0, 180f, 0), 0.2f);
-        }
-        
-        public void PlayKnockedEffect(float duration)
-        {
-            _tweenKnocked.Complete();
-            _tweenKnocked = transform.parent.DOPunchRotation(new Vector3(0, 90f, 0), duration);
-        }
-
-        public virtual void CompleteTweens()
-        {
-            _tweenTrick.Complete();
-            _tweenKnocked.Complete();
-            _tweenLocalRotate.Complete();
-            _tweenHopPosition.Complete();
-            _tweenHopScale.Complete();
-            _tweenCarSquash.Complete();
-
-        }
-
         public virtual void SetDrifting(bool drifting)
         {
             _drifting = drifting;
         }
-
-        private void Collision(GameObject collidedWith, Collision coll)
-        {
-            
-            if (coll.gameObject.CompareTag("Wall"))
-            {
-                _tweenCarSquash.Complete();
-            
-                Vector3 squash = new Vector3(0.15f, -0.15f, 0.15f);
-                float magnitude = coll.relativeVelocity.magnitude * 0.02f;
-
-                _tweenCarSquash = transform.parent.DOPunchScale(squash*magnitude, .35f + magnitude, 5);
-            }
-
-        }
-        
     }
 }
 

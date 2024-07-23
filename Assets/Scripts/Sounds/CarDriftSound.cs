@@ -1,5 +1,4 @@
-﻿using System;
-using Car;
+﻿using Car;
 using UnityEngine;
 
 namespace Sounds

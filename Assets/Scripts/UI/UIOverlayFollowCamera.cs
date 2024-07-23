@@ -61,13 +61,6 @@ namespace UI
                 _canvasGroup.alpha = 1;
             }
 
-            /*if (controller == CarController.PlayerController && controller.CanMove)
-        {
-            _canvasGroup.alpha = 0;
-            return;
-        }*/
-        
-        
             var distance = Vector3.Distance(controller.Model.transform.position,
                 CarController.PlayerController.Model.transform.position);
             float normalizedDistance = Mathf.InverseLerp(4f, 6f, distance);

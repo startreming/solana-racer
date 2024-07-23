@@ -43,7 +43,6 @@ namespace Race
             lapManager.OnUpdatedRacers += UpdateRacers;
             raceManager.OnUpdatedTimer += UpdateTimer;
             raceManager.OnStartedRace += StartRace;
-            lapManager.OnFinishedRace += FinishRace;
             lapManager.OnRacerFinishedRace += RacerFinishRace;
 
             totalLaps.text = lapManager.Laps.ToString();
@@ -59,7 +58,6 @@ namespace Race
             lapManager.OnUpdatedRacers -= UpdateRacers;
             raceManager.OnUpdatedTimer -= UpdateTimer;
             raceManager.OnStartedRace -= StartRace;
-            lapManager.OnFinishedRace -= FinishRace;
         }
 
         private void Update()
@@ -131,12 +129,7 @@ namespace Race
         {
             timerContainer.SetActive(false);
         }
-        
-        private void FinishRace(List<Racer> racers)
-        {
-            
-        }
-        
+
         private void RacerFinishRace(Racer finishedRacer)
         {
             if (finishedRacer.Represents == CarController.PlayerGameObject)

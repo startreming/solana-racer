@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
@@ -31,7 +30,7 @@ namespace Car
         [Header("Effects")]
         [SerializeField] private ParticleSystem speedLines;
         
-        private UnityEngine.Camera _cam;
+        private Camera _cam;
         private Rigidbody _targetBody;
         private float _upDirBlend = 1.0f;
         private float _castDist = 0.0f;
@@ -51,7 +50,7 @@ namespace Car
         private InputActions _input = null;
 
         private void Awake() {
-            _cam = GetComponent<UnityEngine.Camera>();
+            _cam = GetComponent<Camera>();
 
             if (GetComponent<AudioListener>() != null) {
                 // Change velocity update mode because the camera moves in FixedUpdate
@@ -120,22 +119,6 @@ namespace Car
         {
             
             _lookBack = _input.Kart.LookBack.IsPressed();
-            var changeSpectate = _input.System.ChangePlayer.WasPressedThisFrame();
-
-            if (changeSpectate && _spectatorMode)
-            {
-                FindNewKart();
-            }
-            
-            if (_cam == null || targetKart == null || _targetBody == null)
-            {
-                if (changeSpectate && !_spectatorMode && _previouslyOwned)
-                {
-                    FindNewKart();
-                }
-                
-                return;
-            }
 
             // Movement calculations
             var localVel = targetKart.LocalVelocity;
@@ -173,14 +156,7 @@ namespace Car
 
             // Raycast upward to determine how high the camera should be placed relative to the kart
             Vector3 targetHighPoint = _smoothObj.TransformPoint(Vector3.up * height);
-            RaycastHit highHit = new RaycastHit();
-            if (Physics.Linecast(_smoothObj.position, targetHighPoint, out highHit, castMask, QueryTriggerInteraction.Ignore)) {
-                //_highPoint = highHit.point + (_smoothObj.position - targetHighPoint).normalized * _cam.nearClipPlane;
-                //TODO: Fix this ground clipping bug
-            }
-            else {
-                _highPoint = targetHighPoint;
-            }
+            _highPoint = targetHighPoint;
 
             // Raycast from the high point to determine how far away the camera should be from the kart
             RaycastHit lineHit = new RaycastHit();
@@ -199,30 +175,6 @@ namespace Car
             transform.rotation = _targetRot;
             transform.Rotate(xAngle, 0, 0);
         }
-
-        private void FindNewKart()
-        {
-            //TODO: Expensive method invocation
-            _spectatorMode = true;
-            
-            var kartControllers = FindObjectsOfType<CarController>().ToList();
-
-            if (kartControllers.Count < 1)
-                return;
-
-            if (targetKart != null && kartControllers.Contains(targetKart))
-            {
-                kartControllers.Remove(targetKart);
-            }
-
-            var select = UnityEngine.Random.Range(0, kartControllers.Count-1);
-            if (kartControllers[select] != null)
-            {
-                Initialize(kartControllers[select]);
-            }
-            
-        }
-
 
         private void OnDestroy() {
             if (_tempRot != null) {

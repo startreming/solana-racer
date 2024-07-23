@@ -10,12 +10,12 @@ namespace UI
         [SerializeField] private Button resumeButton;
         [SerializeField] private Button quitButton;
         
-        private CanvasGroup canvasGroup;
+        private CanvasGroup _canvasGroup;
         
         private void Start()
         {
-            canvasGroup = GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 0;
+            _canvasGroup = GetComponent<CanvasGroup>();
+            _canvasGroup.alpha = 0;
             
             pauseManager.OnGamePaused += GamePaused;
             resumeButton.onClick.AddListener(pauseManager.ResumeGame);
@@ -25,7 +25,7 @@ namespace UI
 
         private void GamePaused(bool isPaused)
         {
-            canvasGroup.alpha = isPaused ? 1 : 0;
+            _canvasGroup.alpha = isPaused ? 1 : 0;
         }
     }
 }

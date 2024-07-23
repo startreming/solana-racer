@@ -38,14 +38,6 @@ namespace UI
             }
         }
 
-        public void PauseGame()
-        {
-            Time.timeScale = 0f;
-            _isPaused = true;
-            OnGamePaused?.Invoke(_isPaused);
-            AudioListener.pause = true;
-        }
-    
         public void ResumeGame()
         {
             Time.timeScale = 1f;
@@ -53,7 +45,7 @@ namespace UI
             OnGamePaused?.Invoke(_isPaused);
             AudioListener.pause = false;
         }
-    
+
         public void GoToMainMenu()
         {
             Time.timeScale = 1f;
@@ -63,6 +55,14 @@ namespace UI
                 Destroy(nftManager.gameObject);
             }
             SceneLoader.LoadMenuScene();
+        }
+
+        private void PauseGame()
+        {
+            Time.timeScale = 0f;
+            _isPaused = true;
+            OnGamePaused?.Invoke(_isPaused);
+            AudioListener.pause = true;
         }
     }
 }

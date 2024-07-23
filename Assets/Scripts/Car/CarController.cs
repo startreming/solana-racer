@@ -9,7 +9,6 @@ namespace Car
 {
     public class CarController : MonoBehaviour
     {
-        public bool IsPlayer => isPlayer;
         public bool CanMove => _canMove;
         public static GameObject PlayerGameObject;
         public static CarController PlayerController;
@@ -17,12 +16,9 @@ namespace Car
         public Rigidbody Rigidbody => rigidbody;
         public CarModel Model => kartModel;
         public Transform Normal => normal;
-        public bool Sliding => _isDrifting;
         public bool Grounded => _isGrounded;
-        public float CurrentRotate => _currentRotate;
         public float CurrentSpeed => _currentSpeed;
         public bool IsDrifting => _isDrifting;
-        public VehicleStats Stats => stats;
         public Texture2D ProfilePicture => profilePicture;
 
         [SerializeField] private Rigidbody rigidbody;
@@ -33,7 +29,6 @@ namespace Car
         [SerializeField] private bool isPlayer;
 
         [Header("Parameters")]
-        [SerializeField] private float maxForwardSpeed = 65f;
         [SerializeField] private float maxSteeringSpeed = 15f;
         [SerializeField] private float gravity = 25f;
         [SerializeField] private LayerMask layerMask;
@@ -44,10 +39,9 @@ namespace Car
 
         private bool _canMove = false;
         private Vector3 _localVelocity;
-        private float _airTime = 0f;
         private float _currentSpeed;
         private float _currentRotate;
-        private int _driftDirection; // the client might know for visual purposes
+        private int _driftDirection;
         private int _driftMode;
         private float _driftPower;
         private float _nitroCollectionRate = 150f;
@@ -58,16 +52,8 @@ namespace Car
         private float _offroadMultiplier = 0.8f;
         private bool _trickQueued;
         private float _prevSpeed;
-        private bool _prevIsGrounded;
-        private GroundSurfacePreset _lastGroundSurfacePreset;
-
-        public event Action OnDriftStart = () => { };
-        public event Action OnDriftEnd = () => { };
-        public event Action<int> OnDriftUpgrade = (driftLevel) => { };
+        
         public event Action OnBoostStart = () => { };
-        public event Action OnGroundEnter = () => { };
-        public event Action OnGroundLeave = () => { };
-        public event Action<GroundSurfacePreset> OnGroundTypeChange = (groundSurfacePreset) => { };
 
         private void Awake()
         {
@@ -98,8 +84,6 @@ namespace Car
             inputCreator.UnInitialize();
         }
 
-        public float _interpolation = 1.0f;
-
         private void Update()
         {
             SyncPosition();
@@ -114,31 +98,19 @@ namespace Car
 
         private void SyncPosition()
         {
-            float time = Time.deltaTime * _interpolation;
-            float deltaTime = Time.deltaTime;
-
             Transform kartVisuals = kart.transform;
             Rigidbody rb = rigidbody;
             var targetPosition = rb.transform.position - new Vector3(0, vehicleY, 0);
 
-            float distance = Vector3.Distance(kartVisuals.position, targetPosition);
-
             kartVisuals.transform.position = targetPosition;
-            //Vector3.MoveTowards(kartVisuals.position, targetPosition, (distance / time) * deltaTime);
         }
 
         private void SyncRotation()
         {
-            float time = Time.deltaTime * _interpolation;
-            float deltaTime = Time.deltaTime;
-
             Transform kartVisuals = kart.transform;
             Transform turningAid = rotator;
-            
-            var distance = Quaternion.Angle(kartVisuals.rotation, rotator.rotation);
 
             kartVisuals.rotation = turningAid.rotation;
-            //Quaternion.RotateTowards(kartVisuals.rotation, turningAid.rotation, speedSync * deltaTime);
         }
 
         public void SetCanMove(bool state)
@@ -146,15 +118,8 @@ namespace Car
             _canMove = state;
         }
 
-        public void SetKartRotation(Quaternion rotation)
-        {
-            rotator.rotation = rotation;
-        }
-        
         private void Move()
         {
-            //_wasUserCreated = (state == ReplicateState.UserCreated || state == ReplicateState.ReplayedUserCreated);
-
             var forward = inputCreator.Forward;
             var horizontal = inputCreator.Horizontal;
             var drifting = inputCreator.IsDrifting;
@@ -168,7 +133,6 @@ namespace Car
             if (!_isGrounded)
             {
                 gravityMultiplier = 1f;
-                _airTime += Time.deltaTime;
             }
             
             float lerpTime = ApplyInputToEngineTime(forward, delta);
@@ -242,8 +206,6 @@ namespace Car
 
         private void CalculateDriftStages()
         {
-            var _prevDriftMode = _driftMode;
-
             if (_driftPower > 50f && _driftPower < 100f)
             {
                 _driftMode = 1;
@@ -257,11 +219,6 @@ namespace Car
             if (_driftPower > 180f)
             {
                 _driftMode = 3;
-            }
-
-            if (_driftMode > _prevDriftMode)
-            {
-                OnDriftUpgrade(_driftMode);
             }
         }
 
@@ -280,8 +237,6 @@ namespace Car
             {
                 _isDrifting = true;
                 _driftDirection = _horizontalSteer > 0 ? 1 : -1;
-
-                OnDriftStart.Invoke();
             }
         }
 
@@ -301,7 +256,6 @@ namespace Car
             _driftMode = 0;
             _driftPower = 0;
             _driftDirection = 0;
-            OnDriftEnd.Invoke();
         }
 
         private void SyncVisuals(float steering)
@@ -408,7 +362,7 @@ namespace Car
         {
             var targetRotation = maxSteeringSpeed * direction * amount;
             targetRotation *= Mathf.Clamp(rigidbody.velocity.magnitude * 0.1f, 0f, 1f);
-            targetRotation *= Mathf.Sign(_currentSpeed);//Vector3.Dot(rigidbody.velocity.normalized, kart.transform.forward));
+            targetRotation *= Mathf.Sign(_currentSpeed);
             return targetRotation;
         }
 
@@ -435,7 +389,6 @@ namespace Car
                     _trickQueued = false;
                 }
                 
-                _airTime = 0f;
                 _isOffroad = false;
 
                 var gs = hitOn.transform.GetComponent<GroundSurface>();
@@ -446,28 +399,12 @@ namespace Car
                     gsp = gs.GetProps();
                     _isOffroad = gsp.offRoad;
                 }
-
-                if (gsp != _lastGroundSurfacePreset)
-                {
-                    OnGroundTypeChange.Invoke(gsp);
-                }
-
-                _lastGroundSurfacePreset = gsp;
             }
             else
             {
-                if (_isGrounded)
-                    OnGroundTypeChange.Invoke(null);
-
                 _isGrounded = false;
-                _lastGroundSurfacePreset = null;
                 _isOffroad = false;
             }
-
-            if (_isGrounded && !_prevIsGrounded) OnGroundEnter.Invoke();
-            if (!_isGrounded && _prevIsGrounded) OnGroundLeave.Invoke();
-
-            _prevIsGrounded = _isGrounded;
         }
     }
 }

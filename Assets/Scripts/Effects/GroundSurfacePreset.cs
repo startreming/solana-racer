@@ -10,8 +10,5 @@ namespace Effects
         public float speed = 1.0f;
         public Material tireMarkMaterial;
         public bool offRoad = false;
-        public bool alwaysSlide = false;
-        public AudioClip tireSnd;
-        public GameObject tractionParticle;
     }
 }

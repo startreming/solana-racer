@@ -167,7 +167,6 @@ GameObject:
   - component: {fileID: 4388319965472840940}
   - component: {fileID: 6009197484181031719}
   - component: {fileID: 5842219539264983749}
-  - component: {fileID: 4374647923664090695}
   m_Layer: 6
   m_Name: Collider
   m_TagString: Player
@@ -239,19 +238,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &4374647923664090695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2418226964612978545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc6a7367199c4a529b02e19caeec6cd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 8236783234575076746}
 --- !u!1 &2527022915103952284
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +402,6 @@ GameObject:
   - component: {fileID: 4602006346390522106}
   - component: {fileID: 8236783234575076746}
   - component: {fileID: 1169081499916715966}
-  - component: {fileID: 8774477397859264038}
   - component: {fileID: 3914132249095651861}
   - component: {fileID: 8949215750513782040}
   m_Layer: 2
@@ -463,7 +448,6 @@ MonoBehaviour:
   rotator: {fileID: 5275509242134092619}
   inputCreator: {fileID: 8380207294925235416}
   isPlayer: 0
-  maxForwardSpeed: 65
   maxSteeringSpeed: 15
   gravity: 25
   layerMask:
@@ -479,7 +463,6 @@ MonoBehaviour:
     miniNitroStat: 10
   vehicleY: -0.25
   profilePicture: {fileID: 0}
-  _interpolation: 1
 --- !u!114 &1169081499916715966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,19 +486,6 @@ MonoBehaviour:
   - {fileID: 4166602118363674705}
   - {fileID: 5443682672744999596}
   boostParticle: {fileID: 2359740684703328151}
---- !u!114 &8774477397859264038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3804574975153203206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1e3623785c84c139ebb09a2d4eee0f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 4374647923664090695}
 --- !u!114 &3914132249095651861
 MonoBehaviour:
   m_ObjectHideFlags: 0

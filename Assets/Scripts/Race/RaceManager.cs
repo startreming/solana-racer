@@ -14,7 +14,7 @@ namespace Race
         [SerializeField] private int waitToStart = 3;
         [SerializeField] private CarController[] carControllers;
         
-        private int currentCountDown;
+        private int _currentCountDown;
 
         private void Start()
         {
@@ -23,21 +23,21 @@ namespace Race
         
         private void StartTimer()
         {
-            currentCountDown = waitToStart;
+            _currentCountDown = waitToStart;
             UpdateTimer();
         }
 
         private void UpdateTimer()
         {
-            OnUpdatedTimer?.Invoke(currentCountDown);
+            OnUpdatedTimer?.Invoke(_currentCountDown);
             
-            if (currentCountDown <= 0)
+            if (_currentCountDown <= 0)
             {
                 StartRace();
                 return;
             }
 
-            currentCountDown--;
+            _currentCountDown--;
             Invoke(nameof(UpdateTimer), 1);
         }
 
