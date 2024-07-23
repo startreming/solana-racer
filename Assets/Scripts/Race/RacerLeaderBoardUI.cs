@@ -11,11 +11,12 @@ namespace Race
         [SerializeField] private TMP_Text racerName;
         [SerializeField] private RawImage racerIcon;
         [SerializeField] private TMP_Text raceTime;
+        [SerializeField] private Image background;
 
         public void UpdatePlayer(Racer racer)
         {
-            place.text = racer.Place.ToString();
-            racerName.text = racer.Represents.name;
+            place.text = "#" + racer.Place;
+            racerName.text = racer.Represents.name.ToUpper();
             var timeElapsed = racer.TotalRaceTime.ToString(@"mm\:ss\:fff");
             raceTime.text = timeElapsed;
             
@@ -29,6 +30,11 @@ namespace Race
             {
                 racerIcon.texture = picture;
                 canvasRenderer.SetAlpha(1);
+            }
+            
+            if (racer.Represents.name == "Player")
+            {
+                background.color = racer.Place == 1 ? Utils.FirstPlaceColor : Utils.AnotherPlaceColor;
             }
         }
     }

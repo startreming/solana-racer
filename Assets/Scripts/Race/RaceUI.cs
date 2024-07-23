@@ -27,8 +27,10 @@ namespace Race
         [SerializeField] private RacerUI racer;
         [SerializeField] private Transform racersContainer;
         [SerializeField] private RacerLeaderBoardUI racerLeaderBoardUIPrefab;
+        [SerializeField] private GameObject raceUI;
         [SerializeField] private GameObject leaderBoard;
         [SerializeField] private Transform racersLeaderBoardContainer;
+        [SerializeField] private TextMeshProUGUI finalPlayerPositionText;
 
         private float _maxKPHSpeed = 120f; 
         private float _minSpeedometerFill = 0.1f;
@@ -45,9 +47,10 @@ namespace Race
             raceManager.OnStartedRace += StartRace;
             lapManager.OnRacerFinishedRace += RacerFinishRace;
 
-            totalLaps.text = lapManager.Laps.ToString();
+            totalLaps.text = "/" + lapManager.Laps;
             timerText.text = raceManager.WaitToStart.ToString();
             currentSpeed.text = "0 km/h";
+            raceUI.SetActive(true);
             leaderBoard.SetActive(false);
         }
 
@@ -135,10 +138,14 @@ namespace Race
             if (finishedRacer.Represents == CarController.PlayerGameObject)
             {
                 _raceStarted = false;
+                raceUI.SetActive(false);
                 leaderBoard.SetActive(true);
                 currentSpeed.text = "0 km/h";
                 pauseMenu.gameObject.SetActive(false);
                 pauseManager.SetCanPause(false);
+                
+                finalPlayerPositionText.text = finishedRacer.Place.ToString();
+                finalPlayerPositionText.color = finishedRacer.Place == 1 ? Utils.FirstPlaceColor : Utils.AnotherPlaceColor;
             }
             
             var racerUI = Instantiate(racerLeaderBoardUIPrefab, racersLeaderBoardContainer);
