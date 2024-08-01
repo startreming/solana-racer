@@ -10,6 +10,7 @@ using Solana.Unity.SDK.Example;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace Solana
@@ -75,6 +76,10 @@ namespace Solana
         {
             if(_isLoadingTokens) return;
             _isLoadingTokens = true;
+            
+            // Get compatible nft symbols
+            var compatibleSymbols = await GetCompatibleSymbols("logo");
+            
             var tokens = await Web3.Wallet.GetTokenAccounts(Commitment.Confirmed);
             if(tokens == null) return;
             // Remove tokens not owned anymore and update amounts
@@ -110,21 +115,27 @@ namespace Solana
                     if (!(item.Account.Data.Parsed.Info.TokenAmount.AmountUlong > 0)) break;
                     if (_instantiatedTokens.All(t => t.TokenAccount.Account.Data.Parsed.Info.Mint != item.Account.Data.Parsed.Info.Mint))
                     {
-                        var tk = Instantiate(tokenItem, tokenContainer, true);
-                        tk.transform.localScale = Vector3.one;
-
                         var loadTask = Unity.SDK.Nft.Nft.TryGetNftData(item.Account.Data.Parsed.Info.Mint,
                             Web3.Instance.WalletBase.ActiveRpcClient).AsUniTask();
                         loadingTasks.Add(loadTask);
                         loadTask.ContinueWith(nft =>
                         {
-                            TokenItem tkInstance = tk.GetComponent<TokenItem>();
-                            tkInstance.SetWalletScreen(this);
-                            _instantiatedTokens.Add(tkInstance);
-                            tk.SetActive(true);
-                            if (tkInstance)
+                            // Filter nft by symbol
+                            Debug.Log("Nft symbol: "+nft.metaplexData.data.metadata.symbol);
+                            if (nft.metaplexData.data.metadata.symbol != null && 
+                                compatibleSymbols.Contains(nft.metaplexData.data.metadata.symbol))
                             {
-                                tkInstance.InitializeData(item, nft).Forget();
+                                var tk = Instantiate(tokenItem, tokenContainer, true);
+                                tk.transform.localScale = Vector3.one;
+                                
+                                TokenItem tkInstance = tk.GetComponent<TokenItem>();
+                                tkInstance.SetWalletScreen(this);
+                                _instantiatedTokens.Add(tkInstance);
+                                tk.SetActive(true);
+                                if (tkInstance)
+                                {
+                                    tkInstance.InitializeData(item, nft).Forget();
+                                }
                             }
                         }).Forget();
                     }
@@ -133,6 +144,32 @@ namespace Solana
             await UniTask.WhenAll(loadingTasks);
             _isLoadingTokens = false;
             Loading.StopLoading();
+        }
+        
+        private async UniTask<List<string>> GetCompatibleSymbols(string placement)
+        {
+            string url = $"https://dummyjson.com/c/01bb-3af2-4d15-b908?placement={placement}";
+            using (UnityWebRequest request = UnityWebRequest.Get(url))
+            {
+                var response = await request.SendWebRequest();
+                if (response.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError($"Error fetching compatible symbols: {response.error}");
+                    return new List<string>();
+                }
+                else
+                {
+                    string json = response.downloadHandler.text;
+                    var data = JsonUtility.FromJson<SupportedSymbolsResponse>(json);
+                    return data.symbols;
+                }
+            }
+        }
+
+        [System.Serializable]
+        private class SupportedSymbolsResponse
+        {
+            public List<string> symbols;
         }
 
         public void InvokeOnSelectedToken(Unity.SDK.Nft.Nft nft)
