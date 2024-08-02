@@ -40,7 +40,7 @@ namespace Solana
             selectButton.onClick.AddListener(SelectNft);
         }
 
-        public async UniTask InitializeData(TokenAccount tokenAccount, Solana.Unity.SDK.Nft.Nft nftData = null)
+        public async UniTask InitializeData(TokenAccount tokenAccount, Unity.SDK.Nft.Nft nftData = null)
         {
             TokenAccount = tokenAccount;
             if (nftData != null && ulong.Parse(tokenAccount.Account.Data.Parsed.Info.TokenAmount.Amount) == 1)
@@ -52,7 +52,7 @@ namespace Solana
 
                 if (logo != null)
                 {
-                    logo.texture = nftData.metaplexData?.nftImage?.file;
+                    logo.texture = await NftManager.Instance.GetNftImageUrl(nftData);
                 }
             }
             else
@@ -66,25 +66,16 @@ namespace Solana
                     pub_txt.text += $" ({nftData?.metaplexData?.data?.offchainData?.symbol})";
                 }
 
-                if (nftData?.metaplexData?.data?.offchainData?.default_image != null)
-                {
-                    await LoadAndCacheTokenLogo(nftData.metaplexData?.data?.offchainData?.default_image, tokenAccount.Account.Data.Parsed.Info.Mint);
-                }
-                else
-                {
-                    var tokenMintResolver = await WalletScreen.GetTokenMintResolver();
-                    TokenDef tokenDef = tokenMintResolver.Resolve(tokenAccount.Account.Data.Parsed.Info.Mint);
-                    if(tokenDef.TokenName.IsNullOrEmpty() || tokenDef.Symbol.IsNullOrEmpty()) return;
-                    pub_txt.text = $"{tokenDef.TokenName} ({tokenDef.Symbol})";
-                    await LoadAndCacheTokenLogo(tokenDef.TokenLogoUrl, tokenDef.TokenMint);
-                }
+                var texture = await NftManager.Instance.GetNftImageUrl(nftData, tokenAccount);
+                LoadAndCacheTokenLogo(texture, tokenAccount.Account.Data.Parsed.Info.Mint);
             }
         }
 
-        private async Task LoadAndCacheTokenLogo(string logoUrl, string tokenMint)
+        private void LoadAndCacheTokenLogo(Texture2D texture, string tokenMint)
         {
-            if(logoUrl.IsNullOrEmpty() || tokenMint.IsNullOrEmpty() || logo is null) return;
-            var texture = await FileLoader.LoadFile<Texture2D>(logoUrl);
+            if(tokenMint.IsNullOrEmpty() || texture is null) 
+                return;
+            
             _texture = FileLoader.Resize(texture, 75, 75);
             FileLoader.SaveToPersistentDataPath(Path.Combine(Application.persistentDataPath, $"{tokenMint}.png"), _texture);
             logo.texture = _texture;
