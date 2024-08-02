@@ -121,13 +121,16 @@ namespace Solana
                         loadTask.ContinueWith(nft =>
                         {
                             // Filter nft by symbol
-                            Debug.Log("Nft symbol: "+nft.metaplexData.data.metadata.symbol);
-                            if (nft.metaplexData.data.metadata.symbol != null && 
-                                compatibleSymbols.Contains(nft.metaplexData.data.metadata.symbol))
+                            Debug.Log(nft.metaplexData.data.metadata.name+ " - Symbol: "+nft.metaplexData.data.metadata.symbol);
+                            if (nft.metaplexData.data.metadata.symbol != null 
+                                /* TODO: Uncomment
+                                 && compatibleSymbols.Contains(nft.metaplexData.data.metadata.symbol)*/
+                                )
                             {
                                 var tk = Instantiate(tokenItem, tokenContainer, true);
                                 tk.transform.localScale = Vector3.one;
                                 
+                                Debug.Log(nft.metaplexData.data.metadata.name+ " compatible");
                                 TokenItem tkInstance = tk.GetComponent<TokenItem>();
                                 tkInstance.SetWalletScreen(this);
                                 _instantiatedTokens.Add(tkInstance);
@@ -148,7 +151,7 @@ namespace Solana
         
         private async UniTask<List<string>> GetCompatibleSymbols(string placement)
         {
-            string url = $"https://dummyjson.com/c/01bb-3af2-4d15-b908?placement={placement}";
+            string url = $"https://solanaracer-web.vercel.app/api/supported?placement={placement}";
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
                 var response = await request.SendWebRequest();
@@ -161,6 +164,14 @@ namespace Solana
                 {
                     string json = response.downloadHandler.text;
                     var data = JsonUtility.FromJson<SupportedSymbolsResponse>(json);
+                    
+                    Debug.Log("Nft symbols loaded successfully");
+                    var log = "Symbols: ";
+                    foreach (var symbol in data.symbols)
+                    {
+                        log += symbol + " ";
+                    }
+                    Debug.Log(log);
                     return data.symbols;
                 }
             }

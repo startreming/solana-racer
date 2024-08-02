@@ -35,15 +35,12 @@ namespace Solana
         {
             _nft = nft;
             LoadNft(nft).AsAsyncUnitUniTask().Forget();
-            /*_nftTexture = nft.metaplexData?.nftImage?.file;
-            logo.texture = _nftTexture;*/
         }
         
         private async UniTask LoadNft(Nft nft)
         {
-            /* TODO: Uncomment
             _nft = nft;
-            string imgUrl = nft.metaplexData?.nftImage?.externalUrl;
+            var imgUrl = nft.metaplexData?.nftImage?.externalUrl;
 
             if (string.IsNullOrEmpty(imgUrl))
             {
@@ -51,14 +48,11 @@ namespace Solana
                 return;
             }
 
-            string encodedImgUrl = UnityWebRequest.EscapeURL(imgUrl);
-
-            string symbol = nft.metaplexData.data.metadata.symbol;
-            string placement = "logo";
-
-            string requestUrl = $"https://HOST.com/asset?symbol={symbol}&placement={placement}&imgUrl={encodedImgUrl}";*/
-            
-            string requestUrl = "https://startreming.com/solana_racer/nft.png";
+            var encodedImgUrl = UnityWebRequest.EscapeURL(imgUrl);
+            var symbol = nft.metaplexData.data.metadata.symbol;
+            var placement = "logo";
+            var requestUrl = $"https://solanaracer-web.vercel.app/api/asset?symbol={symbol}&placement={placement}&imgUrl={encodedImgUrl}";
+            Debug.Log("Request url: "+requestUrl);
 
             using (UnityWebRequest request = UnityWebRequest.Get(requestUrl))
             {
@@ -75,6 +69,7 @@ namespace Solana
                 
                 _nftTexture = texture;
                 logo.texture = _nftTexture;
+                Debug.Log("Nft image loaded successfully");
             }
         }
 
