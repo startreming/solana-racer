@@ -41,9 +41,7 @@ namespace Car
         private Vector3 _smoothVel = Vector3.zero;
         private Vector2 _rotateInput = Vector2.zero;
         private bool _lookBack;
-        private bool _spectatorMode = false;
-        private bool _previouslyOwned = false;
-        
+
         private Vector3 _targetPos = Vector3.zero;
         private Quaternion _targetRot = Quaternion.identity;
 
@@ -88,8 +86,6 @@ namespace Car
                 _tempRot.localPosition = Vector3.zero;
                 _tempRot.localRotation = Quaternion.identity;
                 _targetBody = targetKart.Rigidbody;
-
-                _previouslyOwned = true;
             }
         }
         

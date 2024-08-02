@@ -122,10 +122,8 @@ namespace Solana
                         {
                             // Filter nft by symbol
                             Debug.Log(nft.metaplexData.data.metadata.name+ " - Symbol: "+nft.metaplexData.data.metadata.symbol);
-                            if (nft.metaplexData.data.metadata.symbol != null 
-                                /* TODO: Uncomment
-                                 && compatibleSymbols.Contains(nft.metaplexData.data.metadata.symbol)*/
-                                )
+                            if (nft.metaplexData.data.metadata.symbol != null && 
+                                compatibleSymbols.Contains(nft.metaplexData.data.metadata.symbol))
                             {
                                 var tk = Instantiate(tokenItem, tokenContainer, true);
                                 tk.transform.localScale = Vector3.one;
